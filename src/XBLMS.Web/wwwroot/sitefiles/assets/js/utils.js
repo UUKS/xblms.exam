@@ -7,6 +7,7 @@ var utils = {
         euiSize: 'small',
         menuId: utils.getQueryString("menuId"),
         optionsABC: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+        pageSizes: [PER_PAGE, 50, 100, 300, 500, 1000],
       },
       data
     );
@@ -906,7 +907,7 @@ var utils = {
 
   pointNotice: function (notice) {
     if (notice.success) {
-      layer.msg('<div class="p-3 text-center"><div class="pb-3"><i class="bi bi-database-check fs-1 text-warning fw-bolder"></i></div>' + notice.msg + '<div class="pt-3 fs-3"><i class="bi bi-plus me-2"></i>' + notice.value + '</div></div>', { shade: 0.5,time:1500 });
+      layer.msg('<div class="p-3 text-center"><div class="pb-3"><i class="bi bi-database-check fs-1 text-warning fw-bolder"></i></div>' + notice.msg + '<div class="pt-3 fs-3"><i class="bi bi-plus me-2"></i>' + notice.value + '</div></div>', { shade: 0.5, time: 1500 });
     }
   },
 

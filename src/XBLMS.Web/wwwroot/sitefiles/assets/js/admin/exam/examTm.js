@@ -25,7 +25,6 @@ var data = utils.init({
   },
   tmList: null,
   tmTotal: 0,
-  pageSizes: [PER_PAGE, 100, 500, 1000],
   txList: null,
   orderTypeList: null,
   tmGroups: null,

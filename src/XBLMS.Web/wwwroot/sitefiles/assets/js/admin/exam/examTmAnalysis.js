@@ -18,7 +18,6 @@ var data = utils.init({
   paperLoading: false,
   list: null,
   total: 0,
-  pageSizes: [PER_PAGE, 100, 500, 1000, 3000, 5000],
   pId: 0,
   pDate: null,
   newTmGroupName: '',

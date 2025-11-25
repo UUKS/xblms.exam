@@ -22,11 +22,10 @@ var data = utils.init({
     order: '',
     lastActivityDate: 0,
     keyword: '',
-    currentPage: 1,
     organId: 0,
     organType: '',
-    offset: 0,
-    limit: 30
+    pageIndex: 1,
+    pageSize: 50
   },
   uploadPanel: false,
   uploadLoading: false,
@@ -45,7 +44,6 @@ var data = utils.init({
 var methods = {
   apiGetOtherData: function () {
     var $this = this;
-
     $api.get($urlOtherData).then(function (response) {
       var res = response.data;
       $this.groups = res.groups;
@@ -56,7 +54,6 @@ var methods = {
     });
   },
   loadTree(node, resolve) {
-
     if (node.level !== 0) {
       let tree = node.data;
       this.treeParentId = tree.id;
@@ -81,14 +78,11 @@ var methods = {
     $api.get($urlTreeLazy, { params: organParams }).then(function (response) {
       var res = response.data;
       resolve(res.organs)
-
-
     }).catch(function (error) {
       utils.error(error);
     }).then(function () {
       $this.treeLoading = false;
     });
-
   },
   loadTreeRefreshTotal: function () {
     let loadedIdList = [];
@@ -100,7 +94,6 @@ var methods = {
             loadedIdList.push(letGuid)
             this.apiGetTreeCount(letNode);
           }
-
           if (letNode.childNodes && letNode.childNodes.length > 0) {
             letNode.childNodes.forEach(letcnode => {
 
@@ -109,7 +102,6 @@ var methods = {
                 loadedIdList.push(letcGuid)
                 this.apiGetTreeCount(letcnode);
               }
-
             });
           }
         }
@@ -146,7 +138,6 @@ var methods = {
       params: this.formInline
     }).then(function (response) {
       var res = response.data;
-
       $this.items = res.users;
       $this.count = res.count;
     }).catch(function (error) {
@@ -159,7 +150,6 @@ var methods = {
   btnViewClick: function (user) {
     utils.openUserView(user.id);
   },
-
   btnAvatarCerUploadClick: function () {
     var $this = this;
     top.utils.openLayer({
@@ -171,7 +161,6 @@ var methods = {
       end: function () { $this.apiGet() }
     });
   },
-
   btnAddClick: function () {
     var $this = this;
     top.utils.openLayer({
@@ -217,7 +206,6 @@ var methods = {
 
   btnExportClick: function () {
     var $this = this;
-
     utils.loading(this, true);
     $api.post($urlExport, $this.formInline).then(function (response) {
       var res = response.data;
@@ -229,10 +217,8 @@ var methods = {
       utils.loading($this, false);
     });
   },
-
   apiDelete: function (item) {
     var $this = this;
-
     utils.loading(this, true);
     $api.post($urlDelete, {
       id: item.id
@@ -247,10 +233,8 @@ var methods = {
       $this.loadTreeRefreshTotal();
     });
   },
-
   btnDeleteClick: function (item) {
     var $this = this;
-
     top.utils.alertDelete({
       title: '删除用户',
       text: '此操作将删除用户 ' + item.userName + ' 及其关联的所有数据，确定吗？',
@@ -266,14 +250,11 @@ var methods = {
       selectedUsers.forEach(user => {
         ids.push(user.id);
       })
-
       var $this = this;
-
       top.utils.alertDelete({
         title: '删除用户',
         text: '此操作将删除选中的用户及其关联的所有数据，确定吗？',
         callback: function () {
-
           utils.loading($this, true);
           $api.post($urlDeletes, {
             ids: ids
@@ -282,7 +263,6 @@ var methods = {
             utils.success("操作成功");
             $this.apiGet();
             $this.loadTreeRefreshTotal();
-
           }).catch(function (error) {
             utils.error(error);
           }).then(function () {
@@ -300,7 +280,6 @@ var methods = {
   },
   apiLock: function (item) {
     var $this = this;
-
     utils.loading(this, true);
     $api.post($url + '/actions/lock', {
       id: item.id
@@ -314,10 +293,8 @@ var methods = {
       utils.loading($this, false);
     });
   },
-
   btnLockClick: function (item) {
     var $this = this;
-
     top.utils.alertDelete({
       title: '锁定用户',
       text: '此操作将锁定用户 ' + item.userName + '，确定吗？',
@@ -327,10 +304,8 @@ var methods = {
       }
     });
   },
-
   apiUnLock: function (item) {
     var $this = this;
-
     utils.loading(this, true);
     $api.post($url + '/actions/unLock', {
       id: item.id
@@ -344,10 +319,8 @@ var methods = {
       utils.loading($this, false);
     });
   },
-
   btnUnLockClick: function (item) {
     var $this = this;
-
     top.utils.alertDelete({
       title: '解锁用户',
       text: '此操作将解锁用户 ' + item.userName + '，确定吗？',
@@ -357,26 +330,25 @@ var methods = {
       }
     });
   },
-
   btnSearchClick() {
+    this.formInline.pageIndex = 1;
     this.apiGet();
   },
-
   handleCurrentChange: function (val) {
-    this.formInline.currentValue = val;
-    this.formInline.offset = this.formInline.limit * (val - 1);
-
-    this.btnSearchClick();
+    this.formInline.pageIndex = val;
+    this.apiGet();
   },
-
+  handleSizeChange: function (val) {
+    this.formInline.pageIndex = 1;
+    this.formInline.pageSize = val;
+    this.apiGet();
+  },
   btnTreeClick: function (data, node, e) {
     this.formInline.organId = data.id;
     this.formInline.organType = data.organType;
-
     this.selectOrganId = data.id;
     this.selectOrganName = data.name;
     this.selectOrganType = data.organType;
-
     this.btnSearchClick();
   },
 };

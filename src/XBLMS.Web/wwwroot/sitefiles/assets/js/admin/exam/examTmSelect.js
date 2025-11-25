@@ -18,7 +18,7 @@ var data = utils.init({
     order: '',
     orderType: '',
     pageIndex: 1,
-    pageSize: PER_PAGE
+    pageSize: 300
   },
   formSInline: {
     id: utils.getQueryInt("id"),
@@ -30,7 +30,7 @@ var data = utils.init({
     order: '',
     orderType: '',
     pageIndex: 1,
-    pageSize: PER_PAGE
+    pageSize: 300
   },
   tmList: null,
   tmTotal: 0,
@@ -218,8 +218,19 @@ var methods = {
     this.formInline.pageIndex = val;
     this.apiGet();
   },
+  handleSizeChange: function (val) {
+    this.formInline.pageIndex = 1;
+    this.formInline.pageSize = val;
+
+    this.apiGet();
+  },
   handleSCurrentChange: function (val) {
     this.formSInline.pageIndex = val;
+    this.apiGetSelect();
+  },
+  handleSSizeChange: function (val) {
+    this.formSInline.pageIndex = 1;
+    this.formSInline.pageSize = val;
     this.apiGetSelect();
   },
   btnSearchClick: function () {

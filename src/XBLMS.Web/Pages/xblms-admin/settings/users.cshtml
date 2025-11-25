@@ -103,7 +103,7 @@
                                  width="60"
                                  align="left">
                     <template scope="scope">
-                        <span>{{(formInline.currentPage - 1) * formInline.limit + scope.$index + 1}}</span>
+                        <span>{{(formInline.pageIndex - 1) * formInline.pageSize + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="账号" show-overflow-tooltip>
@@ -150,9 +150,11 @@
 
             <div style="text-align: center; margin-top: 10px;">
                 <el-pagination v-on:current-change="handleCurrentChange" background
-                               :current-page="formInline.currentPage"
-                               :page-size="formInline.limit"
-                               layout="total, prev, pager, next, jumper"
+                               :current-page="formInline.pageIndex"
+                               :page-size="formInline.pageSize"
+                               v-on:size-change="handleSizeChange"
+                               :page-sizes="pageSizes"
+                               layout="total,sizes, prev, pager, next, jumper"
                                :total="count">
                 </el-pagination>
             </div>

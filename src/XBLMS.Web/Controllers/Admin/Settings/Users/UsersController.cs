@@ -57,8 +57,8 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Users
             public string Order { get; set; }
             public int LastActivityDate { get; set; }
             public string Keyword { get; set; }
-            public int Offset { get; set; }
-            public int Limit { get; set; }
+            public int PageIndex { get; set; }
+            public int PageSize { get; set; }
             public string DateFrom { get; set; }
             public string DateTo { get; set; }
         }

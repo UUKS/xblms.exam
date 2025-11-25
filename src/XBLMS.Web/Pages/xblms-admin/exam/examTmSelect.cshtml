@@ -40,7 +40,9 @@
                 <el-pagination v-on:current-change="handleSCurrentChange" background
                                :current-page="formSInline.pageIndex"
                                :page-size="formSInline.pageSize"
-                               layout="total, prev, pager, next"
+                               v-on:size-change="handleSSizeChange"
+                               :page-sizes="pageSizes"
+                               layout="total,sizes, prev, pager, next, jumper"
                                :total="tmSelectTotal">
                 </el-pagination>
             </div>
@@ -86,7 +88,9 @@
                 <el-pagination v-on:current-change="handleCurrentChange" background
                                :current-page="formInline.pageIndex"
                                :page-size="formInline.pageSize"
-                               layout="total, prev, pager, next"
+                               v-on:size-change="handleSizeChange"
+                               :page-sizes="pageSizes"
+                               layout="total,sizes, prev, pager, next, jumper"
                                :total="tmTotal">
                 </el-pagination>
             </div>

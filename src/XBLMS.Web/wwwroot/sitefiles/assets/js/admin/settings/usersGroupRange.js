@@ -29,7 +29,6 @@ var data = utils.init({
   curOrganId: '',
   groupName: null,
   multipleSelection: [],
-  pageSizes: [PER_PAGE, 50, 300, 500, 1000],
   treeParentId: 0,
   treeOrganType: 'company',
   treeLoading: false,

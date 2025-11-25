@@ -15,7 +15,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Users
             }
             var adminAuth = await _authManager.GetAdminAuth();
             var group = await _userGroupRepository.GetAsync(request.GroupId);
-            var (total, list) = await _userRepository.GetListAsync(adminAuth, request.OrganId, request.OrganType, group, request.LastActivityDate, request.Keyword, request.Order, request.Offset, request.Limit);
+            var (total, list) = await _userRepository.GetListAsync(adminAuth, request.OrganId, request.OrganType, group, request.LastActivityDate, request.Keyword, request.Order, request.PageIndex, request.PageSize);
 
             if (total > 0)
             {

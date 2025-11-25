@@ -616,7 +616,7 @@ namespace XBLMS.Core.Repositories
             }
             return query;
         }
-        public async Task<(int total, List<User> list)> GetListAsync(AdminAuth auth, int organId, string organType, UserGroup group, int dayOfLastActivity, string keyword, string order, int offset, int limit)
+        public async Task<(int total, List<User> list)> GetListAsync(AdminAuth auth, int organId, string organType, UserGroup group, int dayOfLastActivity, string keyword, string order, int pageIndex, int pageSize)
         {
             var query = Q.NewQuery();
             query = GetUserQuery(auth, query, organId, organType, dayOfLastActivity, keyword, order);
@@ -628,7 +628,7 @@ namespace XBLMS.Core.Repositories
 
             var total = await _repository.CountAsync(query);
 
-            var list = await _repository.GetAllAsync(query.Offset(offset).Limit(limit));
+            var list = await _repository.GetAllAsync(query.ForPage(pageIndex, pageSize));
 
             return (total, list);
         }
