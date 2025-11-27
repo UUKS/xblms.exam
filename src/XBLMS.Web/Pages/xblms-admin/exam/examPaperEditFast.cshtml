@@ -102,7 +102,7 @@
                                 <div class="tips"><i class="tips el-icon-info me-2"></i>
                                     <span v-if="formBase.tmRandomType==='RandomNow'">预随机：预发布N份套题试卷，开考的时候随机一份进行考试。</span>
                                     <span v-if="formBase.tmRandomType==='RandomExaming'">开考随机：进入考试的时候随机抽题生成试卷。</span>
-                                    <span v-if="formBase.tmRandomType==='RandomNone'">固定试卷：固定的题目生产试卷。</span>
+                                    <span v-if="formBase.tmRandomType==='RandomNone'">固定试卷：固定的题目生成试卷。</span>
                                 </div>
                             </el-form-item>
                             <el-form-item v-if="formBase.tmRandomType==='RandomNow'" label="随机份数" prop="randomCount" :rules="{ required: true, message: '随机份数不能为空' }">
