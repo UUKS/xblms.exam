@@ -1,11 +1,10 @@
 ﻿using Sw.ChinaEncryptSM;
 using System;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace XBLMS.Utils
 {
-    public class EncryptUtils
+    public class CNSMUtils
     {
         public static string GenerateSecurityKey()
         {
@@ -28,11 +27,6 @@ namespace XBLMS.Utils
             var iv = list[1];
             if (key.Length != 32 || iv.Length != 32) return (false, string.Empty, string.Empty);
             return (true, key, iv);
-        }
-
-        public static byte[] GetSecurityKeyBytes(string securityKey)
-        {
-            return Encoding.UTF8.GetBytes(securityKey);
         }
 
         public static string Encrypt(string plaintext, string securityKey)

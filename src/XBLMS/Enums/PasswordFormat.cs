@@ -13,5 +13,7 @@ namespace XBLMS.Enums
         Hashed,
         [DataEnum(DisplayName = "可逆方式加密")]
         Encrypted,
+        [DataEnum(DisplayName = "可逆方式加密")]
+        CNSM4,
     }
 }

@@ -448,6 +448,11 @@ namespace XBLMS.Core.Repositories
                 passwordSalt = GenerateSalt();
                 retVal = DesEncryptor.EncryptStringBySecretKey(password, passwordSalt);
             }
+            else if (passwordFormat == PasswordFormat.CNSM4)
+            {
+                passwordSalt = CNSMUtils.GenerateSecurityKey();
+                retVal = CNSMUtils.Encrypt(password, passwordSalt);
+            }
             return retVal;
         }
 
@@ -549,7 +554,7 @@ namespace XBLMS.Core.Repositories
             {
                 administrator.LastActivityDate = DateTime.Now;
                 administrator.LastChangePasswordDate = DateTime.Now;
-                administrator.PasswordFormat = PasswordFormat.Encrypted;
+                administrator.PasswordFormat = PasswordFormat.CNSM4;
                 administrator.Password = EncodePassword(password, administrator.PasswordFormat, out var passwordSalt);
                 administrator.PasswordSalt = passwordSalt;
                 administrator.Set("ConfirmPassword", string.Empty);
@@ -615,8 +620,8 @@ namespace XBLMS.Core.Repositories
                 return (false, $"密码不符合规则，请包含{config.AdminPasswordRestriction.GetDisplayName()}");
             }
 
-            password = EncodePassword(password, PasswordFormat.Encrypted, out var passwordSalt);
-            await ChangePasswordAsync(adminEntity, PasswordFormat.Encrypted, passwordSalt, password);
+            password = EncodePassword(password, PasswordFormat.CNSM4, out var passwordSalt);
+            await ChangePasswordAsync(adminEntity, PasswordFormat.CNSM4, passwordSalt, password);
             return (true, string.Empty);
         }
 
@@ -720,6 +725,10 @@ namespace XBLMS.Core.Repositories
             else if (passwordFormat == PasswordFormat.Encrypted)
             {
                 retVal = DesEncryptor.DecryptStringBySecretKey(password, passwordSalt);
+            }
+            else if (passwordFormat == PasswordFormat.CNSM4)
+            {
+                retVal = CNSMUtils.Decrypt(password, passwordSalt);
             }
             return retVal;
         }

@@ -128,12 +128,11 @@ namespace XBLMS.Core.Repositories
                 return (null, errorMessage);
             }
 
-            var passwordSalt = GenerateSalt();
-            password = EncodePassword(password, PasswordFormat.Encrypted, passwordSalt);
+            password = EncodePassword(password, PasswordFormat.CNSM4, out var passwordSalt);
             user.LastActivityDate = DateTime.Now;
             user.LastResetPasswordDate = DateTime.Now;
 
-            user.Id = await InsertWithoutValidationAsync(user, password, PasswordFormat.Encrypted, passwordSalt);
+            user.Id = await InsertWithoutValidationAsync(user, password, PasswordFormat.CNSM4, passwordSalt);
 
             return (user, string.Empty);
         }
@@ -269,9 +268,10 @@ namespace XBLMS.Core.Repositories
             );
         }
 
-        private static string EncodePassword(string password, PasswordFormat passwordFormat, string passwordSalt)
+        private string EncodePassword(string password, PasswordFormat passwordFormat, out string passwordSalt)
         {
             var retVal = string.Empty;
+            passwordSalt = string.Empty;
 
             if (passwordFormat == PasswordFormat.Clear)
             {
@@ -279,20 +279,28 @@ namespace XBLMS.Core.Repositories
             }
             else if (passwordFormat == PasswordFormat.Hashed)
             {
+                passwordSalt = GenerateSalt();
+
                 var src = Encoding.Unicode.GetBytes(password);
                 var buffer2 = Convert.FromBase64String(passwordSalt);
                 var dst = new byte[buffer2.Length + src.Length];
-                byte[] inArray = null;
                 Buffer.BlockCopy(buffer2, 0, dst, 0, buffer2.Length);
                 Buffer.BlockCopy(src, 0, dst, buffer2.Length, src.Length);
                 var algorithm = SHA1.Create(); // HashAlgorithm.Create("SHA1");
-                if (algorithm != null) inArray = algorithm.ComputeHash(dst);
+                if (algorithm == null) return retVal;
+                var inArray = algorithm.ComputeHash(dst);
 
-                if (inArray != null) retVal = Convert.ToBase64String(inArray);
+                retVal = Convert.ToBase64String(inArray);
             }
             else if (passwordFormat == PasswordFormat.Encrypted)
             {
+                passwordSalt = GenerateSalt();
                 retVal = DesEncryptor.EncryptStringBySecretKey(password, passwordSalt);
+            }
+            else if (passwordFormat == PasswordFormat.CNSM4)
+            {
+                passwordSalt = CNSMUtils.GenerateSecurityKey();
+                retVal = CNSMUtils.Encrypt(password, passwordSalt);
             }
             return retVal;
         }
@@ -312,16 +320,18 @@ namespace XBLMS.Core.Repositories
             {
                 retVal = DesEncryptor.DecryptStringBySecretKey(password, passwordSalt);
             }
+            else if (passwordFormat == PasswordFormat.CNSM4)
+            {
+                retVal = CNSMUtils.Decrypt(password, passwordSalt);
+            }
             return retVal;
         }
 
         private static string GenerateSalt()
         {
             var data = new byte[0x10];
-            // new RNGCryptoServiceProvider().GetBytes(data);
             var rand = RandomNumberGenerator.Create();
             rand.GetBytes(data);
-
             return Convert.ToBase64String(data);
         }
 
@@ -337,9 +347,8 @@ namespace XBLMS.Core.Repositories
                 return (false, $"密码不符合规则，请包含{config.UserPasswordRestriction.GetDisplayName()}");
             }
 
-            var passwordSalt = GenerateSalt();
-            password = EncodePassword(password, PasswordFormat.Encrypted, passwordSalt);
-            await ChangePasswordAsync(userId, PasswordFormat.Encrypted, passwordSalt, password);
+            password = EncodePassword(password, PasswordFormat.CNSM4, out var passwordSalt);
+            await ChangePasswordAsync(userId, PasswordFormat.CNSM4, passwordSalt, password);
             return (true, string.Empty);
         }
 
