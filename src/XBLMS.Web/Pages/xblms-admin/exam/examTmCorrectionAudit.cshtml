@@ -18,7 +18,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="审核理由" prop="auditResaon" :rules="{ required:form.auditStatus==='NoPass' ? true :false, message: '请输入审核理由' }">
+                <el-form-item label="审核理由" prop="auditResaon" :rules="{ required:form.auditStatus==='Danger' ? true :false, message: '请输入审核理由' }">
                     <el-input type="textarea" :autosize="{ minRows: 3}" v-model="form.auditResaon"></el-input>
                 </el-form-item>
             </el-form>
