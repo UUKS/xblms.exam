@@ -592,8 +592,7 @@ namespace XBLMS.Core.Repositories
 
             if (dayOfLastActivity > 0)
             {
-                var dateTime = DateTime.Now.AddDays(-dayOfLastActivity);
-                query.Where(nameof(User.LastActivityDate), ">=", DateUtils.ToString(dateTime));
+                query.Where(nameof(User.LastActivityDate), ">=", DateTime.Now.AddDays(-dayOfLastActivity));
             }
 
             if (!string.IsNullOrEmpty(keyword))

@@ -6,6 +6,7 @@ using XBLMS.Core.Utils;
 using XBLMS.Models;
 using XBLMS.Repositories;
 using XBLMS.Services;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -58,7 +59,7 @@ namespace XBLMS.Core.Repositories
                 Where(nameof(ExamPaperUser.ExamPaperId), paperId).
                 Where(nameof(ExamPaperUser.UserId), userId));
         }
-        public async Task<ExamPaperUser> GetAsync(int paperId, int userId,int planId,int courseId)
+        public async Task<ExamPaperUser> GetAsync(int paperId, int userId, int planId, int courseId)
         {
             return await _repository.GetAsync(Q.
                 Where(nameof(ExamPaperUser.PlanId), planId).
@@ -77,7 +78,7 @@ namespace XBLMS.Core.Repositories
                 Where(nameof(ExamPaperUser.ExamTimesSubmit), 0).
                 Where(nameof(ExamPaperUser.PlanId), 0).
                 Where(nameof(ExamPaperUser.CourseId), 0).
-                Where(nameof(ExamPaperUser.ExamEndDateTime), ">", DateUtils.ToString(DateTime.Now)).
+                Where(nameof(ExamPaperUser.ExamEndDateTime), ">", DateTime.Now).
                 Where(nameof(ExamPaperUser.UserId), userId);
 
             query.OrderByDesc(nameof(ExamPaperUser.Id));
@@ -93,14 +94,14 @@ namespace XBLMS.Core.Repositories
                 WhereNullOrFalse(nameof(ExamPaperUser.Locked)).
                 Where(nameof(ExamPaperUser.PlanId), 0).
                 Where(nameof(ExamPaperUser.CourseId), 0).
-                Where(nameof(ExamPaperUser.ExamEndDateTime), ">", DateUtils.ToString(DateTime.Now)).
+                Where(nameof(ExamPaperUser.ExamEndDateTime), ">", DateTime.Now).
                 Where(nameof(ExamPaperUser.UserId), userId);
 
             var dateFromStr = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
             var dateToStr = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
 
-            query.Where(nameof(ExamPaperUser.ExamBeginDateTime), ">=", DateUtils.ToString(dateFromStr));
-            query.Where(nameof(ExamPaperUser.ExamBeginDateTime), "<=", DateUtils.ToString(dateToStr));
+            query.Where(nameof(ExamPaperUser.ExamBeginDateTime), ">=", TranslateUtils.ToDateTime(dateFromStr));
+            query.Where(nameof(ExamPaperUser.ExamBeginDateTime), "<=", TranslateUtils.ToDateTime(dateToStr));
 
             query.OrderBy(nameof(ExamPaperUser.ExamBeginDateTime));
 
@@ -114,7 +115,7 @@ namespace XBLMS.Core.Repositories
             var query = Q.
                 Select(nameof(ExamPaperUser.ExamPaperId)).
                 WhereNullOrFalse(nameof(ExamPaperUser.Locked)).
-                Where(nameof(ExamPaperUser.ExamEndDateTime), ">", DateUtils.ToString(DateTime.Now)).
+                Where(nameof(ExamPaperUser.ExamEndDateTime), ">", DateTime.Now).
                 Where(nameof(ExamPaperUser.UserId), userId).
                 OrderByDesc(nameof(ExamPaperUser.Id));
 
@@ -183,8 +184,8 @@ namespace XBLMS.Core.Repositories
                 var dateFromStr = dateFrom.ToString("yyyy-MM-dd 00:00:00");
                 var dateToStr = dateTo.ToString("yyyy-MM-dd 23:59:59");
 
-                query.Where(nameof(ExamPaperUser.ExamBeginDateTime), ">=", DateUtils.ToString(dateFromStr));
-                query.Where(nameof(ExamPaperUser.ExamBeginDateTime), "<=", DateUtils.ToString(dateToStr));
+                query.Where(nameof(ExamPaperUser.ExamBeginDateTime), ">=", TranslateUtils.ToDateTime(dateFromStr));
+                query.Where(nameof(ExamPaperUser.ExamBeginDateTime), "<=", TranslateUtils.ToDateTime(dateToStr));
             }
             if (!string.IsNullOrEmpty(keyWords))
             {
@@ -203,7 +204,7 @@ namespace XBLMS.Core.Repositories
                 WhereNullOrFalse(nameof(ExamPaperUser.Moni)).
                 Where(nameof(ExamPaperUser.PlanId), 0).
                 Where(nameof(ExamPaperUser.CourseId), 0).
-                Where(nameof(ExamPaperUser.ExamEndDateTime), ">", DateUtils.ToString(DateTime.Now)).
+                Where(nameof(ExamPaperUser.ExamEndDateTime), ">", DateTime.Now).
                 Where(nameof(ExamPaperUser.UserId), userId);
             if (isApp)
             {

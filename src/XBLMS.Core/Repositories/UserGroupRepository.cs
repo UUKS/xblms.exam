@@ -49,6 +49,5 @@ namespace XBLMS.Core.Repositories
                 GroupType = UsersGroupType.All
             });
         }
-
     }
 }

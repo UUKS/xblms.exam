@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XBLMS.Core.Utils;
 using XBLMS.Dto;
 using XBLMS.Models;
 using XBLMS.Repositories;
@@ -171,11 +170,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(Log.CreatedDate), ">=", DateUtils.ToString(dateFrom));
+                query.Where(nameof(Log.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(Log.CreatedDate), "<=", DateUtils.ToString(dateTo));
+                query.Where(nameof(Log.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             return query;
@@ -217,11 +216,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(Log.CreatedDate), ">=", DateUtils.ToString(dateFrom));
+                query.Where(nameof(Log.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(Log.CreatedDate), "<=", DateUtils.ToString(dateTo));
+                query.Where(nameof(Log.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             return query;
@@ -260,7 +259,6 @@ namespace XBLMS.Core.Repositories
                     query.Where(nameof(Log.CompanyId), auth.CurCompanyId);
                 }
             }
-
 
             return query;
         }

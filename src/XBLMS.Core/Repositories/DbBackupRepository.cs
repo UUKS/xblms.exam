@@ -6,6 +6,7 @@ using XBLMS.Core.Utils;
 using XBLMS.Models;
 using XBLMS.Repositories;
 using XBLMS.Services;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -43,8 +44,8 @@ namespace XBLMS.Core.Repositories
             var dateFromStr = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
             var dateToStr = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
 
-            query.Where(nameof(DbBackup.EndTime), ">=", DateUtils.ToString(dateFromStr));
-            query.Where(nameof(DbBackup.EndTime), "<=", DateUtils.ToString(dateToStr));
+            query.Where(nameof(DbBackup.EndTime), ">=", TranslateUtils.ToDateTime(dateFromStr));
+            query.Where(nameof(DbBackup.EndTime), "<=", TranslateUtils.ToDateTime(dateToStr));
 
             return await _repository.ExistsAsync(query);
         }

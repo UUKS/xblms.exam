@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using XBLMS.Enums;
 using XBLMS.Models;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -20,11 +21,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(StudyCourseUser.OverStudyDateTime), ">=", dateFrom);
+                query.Where(nameof(StudyCourseUser.OverStudyDateTime), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(StudyCourseUser.OverStudyDateTime), "<=", dateTo);
+                query.Where(nameof(StudyCourseUser.OverStudyDateTime), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             var list = await _repository.GetAllAsync(query);
@@ -45,11 +46,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(StudyCourseUser.CreatedDate), ">=", dateFrom);
+                query.Where(nameof(StudyCourseUser.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(StudyCourseUser.CreatedDate), "<=", dateTo);
+                query.Where(nameof(StudyCourseUser.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
             var total = await _repository.CountAsync(query);
             var overTotal = await _repository.CountAsync(query.Where(nameof(StudyCourseUser.State), StudyStatType.Yiwancheng.GetValue()));
@@ -64,11 +65,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(StudyCourseUser.CreatedDate), ">=", dateFrom);
+                query.Where(nameof(StudyCourseUser.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(StudyCourseUser.CreatedDate), "<=", dateTo);
+                query.Where(nameof(StudyCourseUser.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             query.OrderByDesc(nameof(StudyCourseUser.Id));

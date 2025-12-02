@@ -23,7 +23,6 @@ namespace XBLMS.Core.Repositories
             var total = await _repository.CountAsync(query);
 
             return total;
-
         }
     }
 }

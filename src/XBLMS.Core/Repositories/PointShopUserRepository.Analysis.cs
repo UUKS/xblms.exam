@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XBLMS.Models;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -13,11 +14,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(PointShopUser.CreatedDate), ">=", dateFrom);
+                query.Where(nameof(PointShopUser.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(PointShopUser.CreatedDate), "<=", dateTo);
+                query.Where(nameof(PointShopUser.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             query.OrderByDesc(nameof(PointShopUser.Id));
@@ -33,11 +34,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(PointShopUser.CreatedDate), ">=", dateFrom);
+                query.Where(nameof(PointShopUser.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(PointShopUser.CreatedDate), "<=", dateTo);
+                query.Where(nameof(PointShopUser.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             query.OrderByDesc(nameof(PointShopUser.Id));

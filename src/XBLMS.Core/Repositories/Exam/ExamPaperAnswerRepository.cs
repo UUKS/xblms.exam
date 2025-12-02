@@ -59,7 +59,8 @@ namespace XBLMS.Core.Repositories
         {
             var tableName = await GetTableNameAsync(examPaperId);
             var repository = await GetRepositoryAsync(tableName);
-            await repository.DeleteAsync(Q.Where(nameof(ExamPaperAnswer.ExamPaperId), examPaperId).Where(nameof(ExamPaperAnswer.UserId), userId));
+            await repository.DeleteAsync(Q.Where(nameof(ExamPaperAnswer.ExamPaperId), examPaperId).
+                Where(nameof(ExamPaperAnswer.UserId), userId));
         }
 
         public async Task<ExamPaperAnswer> GetAsync(int id, int examPaperId)

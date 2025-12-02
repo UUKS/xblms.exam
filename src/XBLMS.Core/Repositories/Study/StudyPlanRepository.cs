@@ -58,7 +58,6 @@ namespace XBLMS.Core.Repositories
             return await _repository.GetAsync(id, Q.CachingGet(GetCacheKey(id)));
         }
 
-
         public async Task<(int total, List<StudyPlan> list)> GetListAsync(AdminAuth auth, string keyWords, int pageIndex, int pageSize)
         {
             var query = Q.OrderByDesc(nameof(StudyPlan.Id));
@@ -150,8 +149,8 @@ namespace XBLMS.Core.Repositories
             var dateFromStr = firstDayOfMonth.ToString("yyyy-MM-dd 00:00:00");
             var dateToStr = lastDayOfMonth.ToString("yyyy-MM-dd 23:59:59");
 
-            query.Where(nameof(StudyPlan.CreatedDate), ">=", DateUtils.ToString(dateFromStr));
-            query.Where(nameof(StudyPlan.CreatedDate), "<=", DateUtils.ToString(dateToStr));
+            query.Where(nameof(StudyPlan.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFromStr));
+            query.Where(nameof(StudyPlan.CreatedDate), "<=", TranslateUtils.ToDateTime(dateToStr));
 
             query.OrderByDesc(nameof(StudyPlan.Id));
 
@@ -176,8 +175,8 @@ namespace XBLMS.Core.Repositories
             var dateFromStr = firstDayOfMonth.ToString("yyyy-MM-dd 00:00:00");
             var dateToStr = lastDayOfMonth.ToString("yyyy-MM-dd 23:59:59");
 
-            query.Where(nameof(StudyPlan.PlanEndDateTime), ">=", DateUtils.ToString(dateFromStr));
-            query.Where(nameof(StudyPlan.PlanEndDateTime), "<=", DateUtils.ToString(dateToStr));
+            query.Where(nameof(StudyPlan.PlanEndDateTime), ">=", TranslateUtils.ToDateTime(dateFromStr));
+            query.Where(nameof(StudyPlan.PlanEndDateTime), "<=", TranslateUtils.ToDateTime(dateToStr));
 
             query.OrderByDesc(nameof(StudyPlan.Id));
 

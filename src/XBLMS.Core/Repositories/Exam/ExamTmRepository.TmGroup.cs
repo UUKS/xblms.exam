@@ -3,7 +3,6 @@ using SqlKata;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XBLMS.Core.Utils;
 using XBLMS.Enums;
 using XBLMS.Models;
 
@@ -206,12 +205,12 @@ namespace XBLMS.Core.Repositories
             if (group.DateFrom.HasValue)
             {
                 isRange = true;
-                query.Where(nameof(ExamTm.CreatedDate), ">=", DateUtils.ToString(group.DateFrom));
+                query.Where(nameof(ExamTm.CreatedDate), ">=", group.DateFrom.Value);
             }
             if (group.DateTo.HasValue)
             {
                 isRange = true;
-                query.Where(nameof(ExamTm.CreatedDate), "<=", DateUtils.ToString(group.DateTo));
+                query.Where(nameof(ExamTm.CreatedDate), "<=", group.DateTo.Value);
             }
             if (group.TreeIds != null && group.TreeIds.Count > 0)
             {

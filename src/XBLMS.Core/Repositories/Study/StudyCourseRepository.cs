@@ -234,8 +234,8 @@ namespace XBLMS.Core.Repositories
             var dateFromStr = startOfWeek.ToString("yyyy-MM-dd 00:00:00");
             var dateToStr = endOfWeek.ToString("yyyy-MM-dd 23:59:59");
 
-            query.Where(nameof(StudyCourse.OfflineBeginDateTime), ">=", DateUtils.ToString(dateFromStr));
-            query.Where(nameof(StudyCourse.OfflineBeginDateTime), "<=", DateUtils.ToString(dateToStr));
+            query.Where(nameof(StudyCourse.OfflineBeginDateTime), ">=", TranslateUtils.ToDateTime(dateFromStr));
+            query.Where(nameof(StudyCourse.OfflineBeginDateTime), "<=", TranslateUtils.ToDateTime(dateToStr));
 
 
             query.OrderByDesc(nameof(StudyCourse.Id));
@@ -272,6 +272,5 @@ namespace XBLMS.Core.Repositories
 
             return query;
         }
-
     }
 }

@@ -181,8 +181,6 @@ namespace XBLMS.Core.Repositories
             return (count, 0, 0, lockedCount, unLockedCount);
         }
 
-  
-
         public async Task<int> CountTestMaxInAsync()
         {
             var userIds = new List<int>();

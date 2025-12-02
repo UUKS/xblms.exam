@@ -47,7 +47,6 @@ namespace XBLMS.Core.Repositories
             });
         }
 
-
         public async Task<(int total, List<StatLog> list)> GetListAsync(AdminAuth auth, int pageIndex, int pageSize)
         {
             var query = Q.NewQuery();
@@ -74,6 +73,5 @@ namespace XBLMS.Core.Repositories
             var list = await _repository.GetAllAsync(query.OrderByDesc(nameof(Stat.Id)).ForPage(pageIndex, pageSize));
             return (total, list);
         }
-
     }
 }

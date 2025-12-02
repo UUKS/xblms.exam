@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using XBLMS.Enums;
 using XBLMS.Models;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -17,11 +18,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(ExamQuestionnaireUser.ExamEndDateTime), ">=", dateFrom);
+                query.Where(nameof(ExamQuestionnaireUser.ExamEndDateTime), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(ExamQuestionnaireUser.ExamEndDateTime), "<=", dateTo);
+                query.Where(nameof(ExamQuestionnaireUser.ExamEndDateTime), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             query.OrderByDesc(nameof(ExamQuestionnaireUser.Id));
@@ -40,11 +41,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(ExamQuestionnaireUser.ExamEndDateTime), ">=", dateFrom);
+                query.Where(nameof(ExamQuestionnaireUser.ExamEndDateTime), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(ExamQuestionnaireUser.ExamEndDateTime), "<=", dateTo);
+                query.Where(nameof(ExamQuestionnaireUser.ExamEndDateTime), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             var total = await _repository.CountAsync(query);

@@ -47,7 +47,6 @@ namespace XBLMS.Core.Repositories
             return await _repository.DeleteAsync(Q.Where(nameof(ExamTmSmall.ParentId), parentId)) > 0;
         }
 
-
         public async Task<List<ExamTmSmall>> GetListAsync(int parentId)
         {
             return await _repository.GetAllAsync(Q.Where(nameof(ExamTmSmall.ParentId), parentId));

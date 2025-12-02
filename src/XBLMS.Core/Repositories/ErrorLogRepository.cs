@@ -3,7 +3,6 @@ using SqlKata;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using XBLMS.Core.Utils;
 using XBLMS.Models;
 using XBLMS.Repositories;
 using XBLMS.Services;
@@ -87,11 +86,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(ErrorLog.CreatedDate), ">=", DateUtils.ToString(dateFrom));
+                query.Where(nameof(ErrorLog.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(ErrorLog.CreatedDate), "<=", DateUtils.ToString(dateTo));
+                query.Where(nameof(ErrorLog.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             return query;

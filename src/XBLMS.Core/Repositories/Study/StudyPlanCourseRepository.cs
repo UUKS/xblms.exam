@@ -154,7 +154,6 @@ namespace XBLMS.Core.Repositories
             return totalCredit;
         }
 
-
         public async Task<(int total, List<StudyPlanCourse> list)> GetOffTrinListByWeekAsync(AdminAuth auth)
         {
             var query = Q.

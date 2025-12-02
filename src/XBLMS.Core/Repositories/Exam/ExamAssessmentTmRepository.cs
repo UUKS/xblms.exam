@@ -46,6 +46,5 @@ namespace XBLMS.Core.Repositories
                 OrderBy(nameof(ExamAssessmentTm.Id)));
             return infoList;
         }
-
     }
 }

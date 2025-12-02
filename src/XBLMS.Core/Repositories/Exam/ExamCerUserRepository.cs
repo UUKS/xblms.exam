@@ -1,10 +1,10 @@
 using Datory;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using XBLMS.Core.Utils;
 using XBLMS.Models;
 using XBLMS.Repositories;
 using XBLMS.Services;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -26,7 +26,8 @@ namespace XBLMS.Core.Repositories
 
         public async Task<bool> ExistsAsync(int userID,int examPaperId)
         {
-            return await _repository.ExistsAsync(Q.Where(nameof(ExamCerUser.UserId), userID).Where(nameof(ExamCerUser.ExamPaperId), examPaperId));
+            return await _repository.ExistsAsync(Q.Where(nameof(ExamCerUser.UserId), userID).
+                Where(nameof(ExamCerUser.ExamPaperId), examPaperId));
         }
         public async Task<bool> ExistsAsync(int userID, int examPaperId,int planId,int courseId)
         {
@@ -86,11 +87,11 @@ namespace XBLMS.Core.Repositories
             }
             if (!string.IsNullOrEmpty(beginDate))
             {
-                query.Where(nameof(ExamCerUser.CreatedDate), ">=", DateUtils.ToString(beginDate));
+                query.Where(nameof(ExamCerUser.CreatedDate), ">=", TranslateUtils.ToDateTime(beginDate));
             }
             if (!string.IsNullOrEmpty(endDate))
             {
-                query.Where(nameof(ExamCerUser.CreatedDate), "<=", DateUtils.ToString(endDate));
+                query.Where(nameof(ExamCerUser.CreatedDate), "<=", TranslateUtils.ToDateTime(endDate));
             }
             query.OrderByDesc(nameof(ExamCerUser.Id));
 

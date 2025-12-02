@@ -3,7 +3,6 @@ using SqlKata;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using XBLMS.Core.Utils;
 using XBLMS.Dto;
 using XBLMS.Enums;
 using XBLMS.Models;
@@ -81,8 +80,8 @@ namespace XBLMS.Core.Repositories
                     var dateFromStr = DateTime.Now.ToString("yyyy-MM-dd 00:00:00");
                     var dateToStr = DateTime.Now.ToString("yyyy-MM-dd 23:59:59");
 
-                    query.Where(nameof(ExamPaperUser.ExamBeginDateTime), ">=", DateUtils.ToString(dateFromStr));
-                    query.Where(nameof(ExamPaperUser.ExamBeginDateTime), "<=", DateUtils.ToString(dateToStr));
+                    query.Where(nameof(ExamPaper.ExamBeginDateTime), ">=", TranslateUtils.ToDateTime(dateFromStr));
+                    query.Where(nameof(ExamPaper.ExamBeginDateTime), "<=", TranslateUtils.ToDateTime(dateToStr));
                 }
                 if (dateType == "week")
                 {
@@ -103,8 +102,8 @@ namespace XBLMS.Core.Repositories
                     var dateFromStr = startOfWeek.ToString("yyyy-MM-dd 00:00:00");
                     var dateToStr = endOfWeek.ToString("yyyy-MM-dd 23:59:59");
 
-                    query.Where(nameof(ExamPaperUser.ExamBeginDateTime), ">=", DateUtils.ToString(dateFromStr));
-                    query.Where(nameof(ExamPaperUser.ExamBeginDateTime), "<=", DateUtils.ToString(dateToStr));
+                    query.Where(nameof(ExamPaper.ExamBeginDateTime), ">=", TranslateUtils.ToDateTime(dateFromStr));
+                    query.Where(nameof(ExamPaper.ExamBeginDateTime), "<=", TranslateUtils.ToDateTime(dateToStr));
                 }
             }
 

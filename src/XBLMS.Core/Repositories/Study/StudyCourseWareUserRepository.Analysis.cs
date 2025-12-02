@@ -1,6 +1,7 @@
 ﻿using Datory;
 using System.Threading.Tasks;
 using XBLMS.Models;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -12,11 +13,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(StudyCourseWareUser.LastModifiedDate), ">=", dateFrom);
+                query.Where(nameof(StudyCourseWareUser.LastModifiedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(StudyCourseWareUser.LastModifiedDate), "<=", dateTo);
+                query.Where(nameof(StudyCourseWareUser.LastModifiedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             return await _repository.SumAsync(nameof(StudyCourseWareUser.TotalDuration), query);

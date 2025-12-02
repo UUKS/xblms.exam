@@ -5,7 +5,6 @@ namespace XBLMS.Core.Repositories
 {
     public partial class AdministratorRepository
     {
-
         public async Task<List<string>> GetRoleNames(int adminId)
         {
             var roleIds = await _administratorsInRolesRepository.GetRoleIdsForAdminAsync(adminId);
@@ -17,6 +16,5 @@ namespace XBLMS.Core.Repositories
             }
             return roleNameList;
         }
-
     }
 }

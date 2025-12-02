@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XBLMS.Models;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -26,11 +27,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(ExamPaperStart.EndDateTime), ">=", dateFrom);
+                query.Where(nameof(ExamPaperStart.EndDateTime), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(ExamPaperStart.EndDateTime), "<=", dateTo);
+                query.Where(nameof(ExamPaperStart.EndDateTime), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             query.OrderByDesc(nameof(ExamPaperStart.Id));
@@ -60,7 +61,7 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(ExamPaperStart.EndDateTime), ">=", dateFrom);
+                query.Where(nameof(ExamPaperStart.EndDateTime), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {

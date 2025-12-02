@@ -6,6 +6,7 @@ using XBLMS.Core.Utils;
 using XBLMS.Models;
 using XBLMS.Repositories;
 using XBLMS.Services;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -139,11 +140,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrWhiteSpace(dateFrom))
             {
-                query.Where(nameof(ExamPaperStart.EndDateTime), ">=", dateFrom);
+                query.Where(nameof(ExamPaperStart.EndDateTime), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrWhiteSpace(dateTo))
             {
-                query.Where(nameof(ExamPaperStart.EndDateTime), "<=", dateTo);
+                query.Where(nameof(ExamPaperStart.EndDateTime), "<=", TranslateUtils.ToDateTime(dateTo));
             }
             if (!string.IsNullOrEmpty(keyWords))
             {
@@ -179,11 +180,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrWhiteSpace(dateFrom))
             {
-                query.Where(nameof(ExamPaperStart.EndDateTime), ">=", dateFrom);
+                query.Where(nameof(ExamPaperStart.EndDateTime), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrWhiteSpace(dateTo))
             {
-                query.Where(nameof(ExamPaperStart.EndDateTime), "<=", dateTo);
+                query.Where(nameof(ExamPaperStart.EndDateTime), "<=", TranslateUtils.ToDateTime(dateTo));
             }
             if (!string.IsNullOrEmpty(keyWords))
             {

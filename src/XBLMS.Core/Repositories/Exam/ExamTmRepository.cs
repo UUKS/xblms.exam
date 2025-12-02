@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XBLMS.Core.Utils;
 using XBLMS.Dto;
 using XBLMS.Enums;
 using XBLMS.Models;
@@ -259,11 +258,11 @@ namespace XBLMS.Core.Repositories
             }
             if (dateFrom.HasValue)
             {
-                query.Where(nameof(ExamTm.CreatedDate), ">=", DateUtils.ToString(dateFrom));
+                query.Where(nameof(ExamTm.CreatedDate), ">=", dateFrom.Value);
             }
             if (dateTo.HasValue)
             {
-                query.Where(nameof(ExamTm.CreatedDate), "<=", DateUtils.ToString(dateTo));
+                query.Where(nameof(ExamTm.CreatedDate), "<=", dateTo.Value);
             }
             return query;
         }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XBLMS.Core.Utils;
 using XBLMS.Models;
 using XBLMS.Utils;
 
@@ -34,7 +33,6 @@ namespace XBLMS.Core.Repositories
                             list.Add(mark);
                         }
                     }
-
                 }
                 list = list.OrderBy(x => x).ToList();
             }
@@ -91,7 +89,7 @@ namespace XBLMS.Core.Repositories
             var query = Q.
                 WhereTrue(nameof(StudyCourse.Public)).
                 WhereTrue(nameof(StudyCourse.OffLine)).
-                Where(nameof(StudyCourse.OfflineEndDateTime), ">", DateUtils.ToString(DateTime.Now)).
+                Where(nameof(StudyCourse.OfflineEndDateTime), ">", DateTime.Now).
                 WhereNullOrFalse(nameof(StudyCourse.Locked));
 
             query.Where(q =>

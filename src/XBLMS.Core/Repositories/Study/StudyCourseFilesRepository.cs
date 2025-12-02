@@ -216,6 +216,5 @@ namespace XBLMS.Core.Repositories
 
             return query;
         }
-
     }
 }

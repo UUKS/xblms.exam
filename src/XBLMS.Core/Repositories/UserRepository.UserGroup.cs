@@ -164,8 +164,6 @@ namespace XBLMS.Core.Repositories
                     }
                 }
 
-
-
                 if (!existWhere)
                 {
                     query.Where(nameof(User.Id), -1);

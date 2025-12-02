@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XBLMS.Configuration;
 using XBLMS.Enums;
 using XBLMS.Models;
 using XBLMS.Utils;
@@ -49,7 +48,6 @@ namespace XBLMS.Core.Repositories
             {
                 return styles.Where(x => x.Locked == false).ToList();
             }
-
         }
 
         public async Task<List<TableStyle>> GetUserStylesAsync()
@@ -168,75 +166,6 @@ namespace XBLMS.Core.Repositories
             }
 
             return relatedIdentities;
-        }
-
-        private static TableStyle GetDefaultUserTableStyle(string tableName, string attributeName)
-        {
-            var style = new TableStyle
-            {
-                Id = 0,
-                RelatedIdentity = 0,
-                TableName = tableName,
-                AttributeName = attributeName,
-                Taxis = 0,
-                DisplayName = string.Empty,
-                HelpText = string.Empty,
-                List = false,
-                InputType = InputType.Text,
-                DefaultValue = string.Empty,
-                Horizontal = true
-            };
-
-            if (StringUtils.EqualsIgnoreCase(attributeName, nameof(User.DisplayName)))
-            {
-                style.AttributeName = nameof(User.DisplayName);
-                style.DisplayName = "姓名";
-                style.RuleValues = TranslateUtils.JsonSerialize(new List<InputStyleRule>
-                {
-                    new InputStyleRule
-                    {
-                        Type = ValidateType.Required,
-                        Message = ValidateType.Required.GetDisplayName()
-                    }
-                });
-                style.Taxis = 1;
-            }
-            else if (StringUtils.EqualsIgnoreCase(attributeName, nameof(User.Mobile)))
-            {
-                style.AttributeName = nameof(User.Mobile);
-                style.DisplayName = "手机号";
-                style.HelpText = "可用于登录、找回密码等功能";
-                style.InputType = InputType.Number;
-                style.RuleValues = TranslateUtils.JsonSerialize(new List<InputStyleRule>
-                {
-                    new InputStyleRule
-                    {
-                        Type = ValidateType.Mobile,
-                        Message = ValidateType.Mobile.GetDisplayName()
-                    }
-                });
-                style.Taxis = 2;
-            }
-            else if (StringUtils.EqualsIgnoreCase(attributeName, nameof(User.Email)))
-            {
-                style.AttributeName = nameof(User.Email);
-                style.DisplayName = "邮箱";
-                style.HelpText = "可用于登录、找回密码等功能";
-                style.RuleValues = TranslateUtils.JsonSerialize(new List<InputStyleRule>
-                {
-                    new InputStyleRule
-                    {
-                        Type = ValidateType.Email,
-                        Message = ValidateType.Email.GetDisplayName()
-                    }
-                });
-                style.Taxis = 3;
-            }
-
-            style.Items = TranslateUtils.JsonDeserialize<List<InputStyleItem>>(style.ItemValues);
-            style.Rules = TranslateUtils.JsonDeserialize<List<InputStyleRule>>(style.RuleValues);
-
-            return style;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using XBLMS.Enums;
 using XBLMS.Models;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -16,11 +17,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(StudyPlanUser.CreatedDate), ">=", dateFrom);
+                query.Where(nameof(StudyPlanUser.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(StudyPlanUser.CreatedDate), "<=", dateTo);
+                query.Where(nameof(StudyPlanUser.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             query.OrderByDesc(nameof(StudyPlanUser.Id));
@@ -38,18 +39,19 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrEmpty(dateFrom))
             {
-                query.Where(nameof(StudyPlanUser.CreatedDate), ">=", dateFrom);
+                query.Where(nameof(StudyPlanUser.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrEmpty(dateTo))
             {
-                query.Where(nameof(StudyPlanUser.CreatedDate), "<=", dateTo);
+                query.Where(nameof(StudyPlanUser.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             var overQuey = query;
             var dabiaoQuery = query;
             var total = await _repository.CountAsync(query);
             var overTotal = await _repository.CountAsync(overQuey.Where(q => {
-                q.Where(nameof(StudyPlanUser.State),StudyStatType.Yiwancheng.GetValue()).OrWhere(nameof(StudyPlanUser.State), StudyStatType.Yidabiao.GetValue());
+                q.Where(nameof(StudyPlanUser.State),StudyStatType.Yiwancheng.GetValue()).
+                OrWhere(nameof(StudyPlanUser.State), StudyStatType.Yidabiao.GetValue());
                 return q;
             }));
 

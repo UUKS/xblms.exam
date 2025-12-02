@@ -222,8 +222,6 @@ namespace XBLMS.Core.Repositories
                 Where(nameof(StudyCourseUser.CourseId), courseId));
         }
 
-
-
         public async Task<List<StudyCourseUser>> GetListAsync(int planId, int userId)
         {
             var query = Q.

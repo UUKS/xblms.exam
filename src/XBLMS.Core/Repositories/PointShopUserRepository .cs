@@ -7,6 +7,7 @@ using XBLMS.Enums;
 using XBLMS.Models;
 using XBLMS.Repositories;
 using XBLMS.Services;
+using XBLMS.Utils;
 
 namespace XBLMS.Core.Repositories
 {
@@ -61,11 +62,11 @@ namespace XBLMS.Core.Repositories
 
             if (!string.IsNullOrWhiteSpace(dateFrom))
             {
-                query.Where(nameof(PointShopUser.CreatedDate), ">=", dateFrom);
+                query.Where(nameof(PointShopUser.CreatedDate), ">=", TranslateUtils.ToDateTime(dateFrom));
             }
             if (!string.IsNullOrWhiteSpace(dateTo))
             {
-                query.Where(nameof(PointShopUser.CreatedDate), "<=", dateTo);
+                query.Where(nameof(PointShopUser.CreatedDate), "<=", TranslateUtils.ToDateTime(dateTo));
             }
 
             var total = await _repository.CountAsync(query);

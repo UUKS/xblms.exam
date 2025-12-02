@@ -330,7 +330,7 @@ namespace XBLMS.Core.Repositories
             if (lastActivityDate > 0)
             {
                 var dateTime = DateTime.Now.AddDays(-lastActivityDate);
-                query.Where(nameof(Administrator.LastActivityDate), ">=", DateUtils.ToString(dateTime));
+                query.Where(nameof(Administrator.LastActivityDate), ">=", dateTime);
             }
             if (!string.IsNullOrEmpty(keyword))
             {
