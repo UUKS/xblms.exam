@@ -59,7 +59,16 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                 await MergeFileAsync(dir, finalPath, guid);
 
                 var backuppathdate = $"{DateTime.Now:yyyy-MM-dd-hh-mm-ss}";
-                _pathManager.ExtractZip(finalPath, PathUtils.Combine(_settingsManager.WebRootPath, "sitefiles", "dbbackup", backuppathdate));
+                var extractPath = PathUtils.Combine(_settingsManager.WebRootPath, "sitefiles", "dbbackup", backuppathdate);
+                _pathManager.ExtractZip(finalPath, extractPath);
+
+                long totalSize = DirectoryUtils.GetTotalSize(extractPath);
+                var paths = DirectoryUtils.GetDirectoryPaths(extractPath);
+                foreach (var path in paths)
+                {
+                    totalSize += DirectoryUtils.GetTotalSize(path);
+                }
+
                 await _dbBackupRepository.InsertAsync(new DbBackup
                 {
                     CompanyId = admin.CompanyId,
@@ -68,7 +77,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                     BeginTime = DateTime.Now,
                     EndTime = DateTime.Now,
                     FilePath = $"sitefiles/dbbackup/{backuppathdate}",
-                    DataSize = FileUtils.GetFileSizeByFilePath(finalPath),
+                    DataSize = FileUtils.GetFileSizeByFileLength(totalSize),
                     ErrorLog = "导入备份"
                 });
 
