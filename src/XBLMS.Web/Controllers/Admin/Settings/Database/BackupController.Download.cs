@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using XBLMS.Configuration;
 using XBLMS.Dto;
 using XBLMS.Utils;
 
@@ -24,8 +25,8 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                 if (!string.IsNullOrWhiteSpace(job.FilePath))
                 {
                     var directionryPath = PathUtils.Combine(_settingsManager.WebRootPath, job.FilePath);
-                    var zipFilePath = PathUtils.Combine(_settingsManager.WebRootPath, "sitefiles", "dbbackup", "zip");
-                    var zipFileName = $"dbback-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.zip";
+                    var zipFilePath = PathUtils.Combine(_settingsManager.WebRootPath, DirectoryUtils.SiteFiles.DirectoryName, DirectoryUtils.SiteFiles.DbBackupFiles);
+                    var zipFileName = $"dbback-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}-{StringUtils.GetShortGuid()}.zip";
 
                     DirectoryUtils.CreateDirectoryIfNotExists(zipFilePath);
                     var filePath = PathUtils.Combine(zipFilePath, zipFileName);

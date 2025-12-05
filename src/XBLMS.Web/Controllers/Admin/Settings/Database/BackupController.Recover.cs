@@ -50,10 +50,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                 return this.Error("SecurityKey 输入错误！");
             }
 
-            if (!await _authManager.HasPermissionsAsync(MenuPermissionType.Add))
-            {
-                return this.NoAuth();
-            }
+
             var job = await _dbBackupRepository.GetAsync(request.Id);
             var jobRecover = new DbRecover
             {
@@ -75,6 +72,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
             else
             {
                 var directionryPath = PathUtils.Combine(_settingsManager.WebRootPath, job.FilePath);
+
                 if (!DirectoryUtils.IsDirectoryExists(directionryPath))
                 {
                     jobRecover.EndTime = DateTime.Now;
@@ -107,37 +105,30 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                     var includes = new List<string>
                     {
                         _dbRecoverRepository.TableName,
-                        _dbBackupRepository.TableName
+                        _dbBackupRepository.TableName,
+                        _databaseManager.ScheduledTaskRepository.TableName
                     };
                     if (ListUtils.ContainsIgnoreCase(includes, tableName)) continue;
-                    try
-                    {
-                        await RecoverTable(tableName, directionryPath, errorTableNames);
 
-                        if (_databaseManager.ExamPaperRepository.TableName.Equals(tableName))
+                    await RecoverTable(tableName, directionryPath, errorTableNames);
+
+                    if (_databaseManager.ExamPaperRepository.TableName.Equals(tableName))
+                    {
+                        var tableIdList = await _databaseManager.ExamPaperRepository.Select_GetSeparateStorageIdList();
+                        if (tableIdList != null && tableIdList.Count > 0)
                         {
-                            var tableIdList = await _databaseManager.ExamPaperRepository.Select_GetSeparateStorageIdList();
-                            if (tableIdList != null && tableIdList.Count > 0)
+                            foreach (var tableId in tableIdList)
                             {
-                                foreach (var tableId in tableIdList)
-                                {
-                                    var ExamPaperAnswer_TableName = _databaseManager.ExamPaperAnswerRepository.GetNewTableNameAsync(tableId);
-                                    await RecoverTable(ExamPaperAnswer_TableName, directionryPath, errorTableNames);
-                                    var ExamPaperRandomConfig_TableName = _databaseManager.ExamPaperRandomConfigRepository.GetNewTableNameAsync(tableId);
-                                    await RecoverTable(ExamPaperRandomConfig_TableName, directionryPath, errorTableNames);
-                                    var ExamPaperRandom_TableName = _databaseManager.ExamPaperRandomRepository.GetNewTableNameAsync(tableId);
-                                    await RecoverTable(ExamPaperRandom_TableName, directionryPath, errorTableNames);
-                                    var ExamPaperRandomTm_TableName = _databaseManager.ExamPaperRandomTmRepository.GetNewTableNameAsync(tableId);
-                                    await RecoverTable(ExamPaperRandomTm_TableName, directionryPath, errorTableNames);
-                                }
+                                var ExamPaperAnswer_TableName = _databaseManager.ExamPaperAnswerRepository.GetNewTableNameAsync(tableId);
+                                await RecoverTable(ExamPaperAnswer_TableName, directionryPath, errorTableNames);
+                                var ExamPaperRandomConfig_TableName = _databaseManager.ExamPaperRandomConfigRepository.GetNewTableNameAsync(tableId);
+                                await RecoverTable(ExamPaperRandomConfig_TableName, directionryPath, errorTableNames);
+                                var ExamPaperRandom_TableName = _databaseManager.ExamPaperRandomRepository.GetNewTableNameAsync(tableId);
+                                await RecoverTable(ExamPaperRandom_TableName, directionryPath, errorTableNames);
+                                var ExamPaperRandomTm_TableName = _databaseManager.ExamPaperRandomTmRepository.GetNewTableNameAsync(tableId);
+                                await RecoverTable(ExamPaperRandomTm_TableName, directionryPath, errorTableNames);
                             }
                         }
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        errorLogs += $"{tableName}:{ex.ToString()};";
                     }
                 }
 
@@ -160,11 +151,10 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
         }
         private async Task RecoverTable(string tableName, string directionryPath, List<string> errorTableNames)
         {
-            var metadataFilePath = PathUtils.Combine(_settingsManager.WebRootPath, directionryPath, tableName, "_metadata.json");
+            var metadataFilePath = PathUtils.Combine(directionryPath, tableName, "_metadata.json");
 
             if (FileUtils.IsFileExists(metadataFilePath))
             {
-
                 var tableInfo = TranslateUtils.JsonDeserialize<TableInfo>(await FileUtils.ReadTextAsync(metadataFilePath, Encoding.UTF8));
 
                 if (await _settingsManager.Database.IsTableExistsAsync(tableName))
@@ -179,20 +169,13 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                     for (var i = 0; i < tableInfo.RowFiles.Count; i++)
                     {
                         var fileName = tableInfo.RowFiles[i];
-                        var filepath = PathUtils.Combine(_settingsManager.WebRootPath, directionryPath, fileName);
+                        var filepath = PathUtils.Combine(directionryPath, fileName);
                         var objects = TranslateUtils.JsonDeserialize<List<JObject>>(
                             await FileUtils.ReadTextAsync(filepath, Encoding.UTF8));
 
-                        try
-                        {
-                            var repository = new Repository(_settingsManager.Database, tableName,
-                                tableInfo.Columns);
-                            await repository.BulkInsertAsync(objects);
-                        }
-                        catch
-                        {
-                            errorTableNames.Add(tableName);
-                        }
+                        var repository = new Repository(_settingsManager.Database, tableName,
+                               tableInfo.Columns);
+                        await repository.BulkInsertAsync(objects);
                     }
                 }
             }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using XBLMS.Configuration;
 using XBLMS.Models;
 using XBLMS.Utils;
 
@@ -36,7 +37,8 @@ namespace XBLMS.Core.Services
         {
             var backupinfo = await _databaseManager.DbBackupRepository.GetBackupingAsync();
 
-            var directory = $"sitefiles/dbbackup/{DateTime.Now:yyyy-MM-dd-hh-mm-ss}";
+            var backupPath = PathUtils.Combine(DirectoryUtils.SiteFiles.DirectoryName, DirectoryUtils.SiteFiles.DbBackupFiles, $"{DateTime.Now:yyyy-MM-dd-hh-mm-ss}-{StringUtils.GetShortGuid()}");
+            var directory = PathUtils.Combine(_settingsManager.WebRootPath, backupPath);
 
             var allTableNames = await _settingsManager.Database.GetTableNamesAsync();
 
@@ -46,18 +48,18 @@ namespace XBLMS.Core.Services
             {
                 tableNames.Add(tableName);
             }
-            var tablesFilePath = PathUtils.Combine(_settingsManager.WebRootPath, directory, "_tables.json");
+            var tablesFilePath = PathUtils.Combine(directory, "_tables.json");
             await FileUtils.WriteTextAsync(tablesFilePath, TranslateUtils.JsonSerialize(tableNames));
 
             var successTables = new List<string>();
             var errorTables = new List<string>();
             var errorLog = "";
-            long dataSize = 0;
+
             foreach (var tableName in tableNames)
             {
                 try
                 {
-                    dataSize += await BackupTable(tableName, directory);
+                    await BackupTable(tableName, directory);
                     successTables.Add(tableName);
 
                     if (_databaseManager.ExamPaperRepository.TableName.Equals(tableName))
@@ -68,13 +70,13 @@ namespace XBLMS.Core.Services
                             foreach (var tableId in tableIdList)
                             {
                                 var ExamPaperAnswer_TableName = _databaseManager.ExamPaperAnswerRepository.GetNewTableNameAsync(tableId);
-                                dataSize += await BackupTable(ExamPaperAnswer_TableName, directory);
+                                await BackupTable(ExamPaperAnswer_TableName, directory);
                                 var ExamPaperRandomConfig_TableName = _databaseManager.ExamPaperRandomConfigRepository.GetNewTableNameAsync(tableId);
-                                dataSize += await BackupTable(ExamPaperRandomConfig_TableName, directory);
+                                await BackupTable(ExamPaperRandomConfig_TableName, directory);
                                 var ExamPaperRandom_TableName = _databaseManager.ExamPaperRandomRepository.GetNewTableNameAsync(tableId);
-                                dataSize += await BackupTable(ExamPaperRandom_TableName, directory);
+                                await BackupTable(ExamPaperRandom_TableName, directory);
                                 var ExamPaperRandomTm_TableName = _databaseManager.ExamPaperRandomTmRepository.GetNewTableNameAsync(tableId);
-                                dataSize += await BackupTable(ExamPaperRandomTm_TableName, directory);
+                                await BackupTable(ExamPaperRandomTm_TableName, directory);
                             }
                         }
                     }
@@ -86,19 +88,25 @@ namespace XBLMS.Core.Services
                 }
             }
 
+            long totalSize = DirectoryUtils.GetTotalSize(directory);
+            var paths = DirectoryUtils.GetDirectoryPaths(directory);
+            foreach (var path in paths)
+            {
+                totalSize += DirectoryUtils.GetTotalSize(path);
+            }
+
             backupinfo.EndTime = DateTime.Now;
             backupinfo.Status = errorTables.Count > 0 ? 2 : 1;
             backupinfo.ErrorLog = errorLog.ToString();
             backupinfo.SuccessTables = successTables;
             backupinfo.ErrorTables = errorTables;
-            backupinfo.FilePath = directory;
-            backupinfo.DataSize = FileUtils.GetFileSizeByFileLength(dataSize);
+            backupinfo.FilePath = backupPath;
+            backupinfo.DataSize = FileUtils.GetFileSizeByFileLength(totalSize);
             await _databaseManager.DbBackupRepository.UpdateAsync(backupinfo);
 
         }
-        private async Task<long> BackupTable(string tableName, string directory)
+        private async Task BackupTable(string tableName, string directory)
         {
-            long dataSize = 0;
             var columns = await _settingsManager.Database.GetTableColumnsAsync(tableName);
             var repository = new Repository(_settingsManager.Database, tableName, columns);
 
@@ -115,13 +123,11 @@ namespace XBLMS.Core.Services
                 tableInfo.RowFiles.Add(fileName);
                 var rows = await _databaseManager.GetObjectsAsync(tableName);
 
-                var filepath = PathUtils.Combine(_settingsManager.WebRootPath, directory, fileName);
+                var filepath = PathUtils.Combine(directory, fileName);
                 await FileUtils.WriteTextAsync(filepath, TranslateUtils.JsonSerialize(rows));
-                dataSize += FileUtils.GetFileSizeLongByFilePath(filepath);
             }
-            var metapath = PathUtils.Combine(_settingsManager.WebRootPath, directory, tableName, "_metadata.json");
+            var metapath = PathUtils.Combine(directory, tableName, "_metadata.json");
             await FileUtils.WriteTextAsync(metapath, TranslateUtils.JsonSerialize(tableInfo));
-            return dataSize;
         }
         private class TableInfo
         {

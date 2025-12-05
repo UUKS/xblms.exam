@@ -17,7 +17,7 @@ namespace XBLMS.Web.Controllers.Admin.Exam
             var cer = await _examCerRepository.GetAsync(request.Id);
 
 
-            var zipFileName = $"{cer.Name}-证书.zip";
+            var zipFileName = $"{cer.Name}-证书";
             var zipFilePath = _pathManager.GetDownloadFilesPath(zipFileName);
 
             DirectoryUtils.CreateDirectoryIfNotExists(zipFilePath);
@@ -33,11 +33,11 @@ namespace XBLMS.Web.Controllers.Admin.Exam
                 FileUtils.CopyFile(cerPath, cerPathNew);
             }
 
-            var zipPath = $"{zipFilePath}\\{zipFileName}";
 
-            var filePath = PathUtils.Combine(zipFilePath, cer.Name);
-            _pathManager.CreateZip(zipPath, filePath);
-            DirectoryUtils.DeleteDirectoryIfExists(filePath);
+            var zipPath = $"{zipFilePath}.zip";
+
+            _pathManager.CreateZip(zipPath, zipFilePath);
+            DirectoryUtils.DeleteDirectoryIfExists(zipFilePath);
 
             var zipUrl = _pathManager.GetRootUrlByPath(zipPath);
 

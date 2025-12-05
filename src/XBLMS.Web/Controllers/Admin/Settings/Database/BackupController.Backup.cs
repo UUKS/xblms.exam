@@ -48,6 +48,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                 Status = 0
             };
             await _dbBackupRepository.InsertAsync(jobinfo);
+            await AddPingTask();
 
             return new BoolResult
             {

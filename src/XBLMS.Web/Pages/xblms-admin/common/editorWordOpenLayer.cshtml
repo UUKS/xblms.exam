@@ -28,6 +28,12 @@
                     <div class="el-upload__text">将Word文件拖到此处，或<em>点击上传</em></div>
                     <div class="el-upload__tip" slot="tip" style="color:red;">仅支docx文件，且单个文件大小不超过2G。</div>
                     <div class="el-upload__tip" slot="tip" style="color:red;">不支持数学公式。</div>
+                    <div class="el-upload__tip" slot="tip">
+                        <el-link :underline="false" type="primary" :href="utils.getAssetsUrl('uploadtemplates/题目导入模版.docx')" target="_blank">
+                            <i class="el-icon-download"></i>
+                            下载题目导入模版
+                        </el-link>
+                    </div>
                 </el-upload>
             </div>
         </el-scrollbar>

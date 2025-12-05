@@ -212,7 +212,7 @@ namespace XBLMS.Web.Controllers.Admin.Common
 
                 await GetTm(wordContent, configs, start.ExamPaperRandomId, request.WithAnswer, start, paper, true);
 
-                StringUtils.ReplaceHrefOrSrc(wordContent, $"/{DirectoryUtils.SiteFiles.DirectoryName}/{DirectoryUtils.SiteFiles.Upload}", $"../../{DirectoryUtils.SiteFiles.Upload}");
+                StringUtils.ReplaceHrefOrSrc(wordContent, $"/{DirectoryUtils.SiteFiles.DirectoryName}/{DirectoryUtils.SiteFiles.Upload}", $"../{DirectoryUtils.SiteFiles.Upload}");
 
                 await FileUtils.WriteTextAsync(fileHtmlPath, wordContent.ToString());
                 var result = WordManager.HtmlToWord(fileHtmlPath, fileWordPath);

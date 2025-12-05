@@ -12,6 +12,7 @@ namespace XBLMS.Configuration
         public const string AdminDirectory = "xblms-admin";
         public const string HomeDirectory = "home";
         public const string WwwrootDirectory = "wwwroot";
+
         public const string DefaultLanguage = "en";
         public const string EncryptStingIndicator = "0secret0";
 

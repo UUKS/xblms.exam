@@ -2,11 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using XBLMS.Configuration;
+using XBLMS.Core.Repositories;
+using XBLMS.Enums;
 using XBLMS.Models;
 using XBLMS.Repositories;
 using XBLMS.Services;
+using XBLMS.Utils;
 
 namespace XBLMS.Web.Controllers.Admin.Settings.Database
 {
@@ -35,8 +40,9 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
         private readonly IDbBackupRepository _dbBackupRepository;
         private readonly IDbRecoverRepository _dbRecoverRepository;
         private readonly IConfigRepository _configRepository;
+        private readonly IScheduledTaskRepository _scheduledTaskRepository;
         public BackupController(IPathManager pathManager, IDatabaseManager databaseManager, IAuthManager authManager, ISettingsManager settingsManager, IConfigRepository configRepository,
-             IDbBackupRepository dbBackupRepository, IDbRecoverRepository dbRecoverRepository)
+             IDbBackupRepository dbBackupRepository, IDbRecoverRepository dbRecoverRepository, IScheduledTaskRepository scheduledTaskRepository)
         {
             _pathManager = pathManager;
             _databaseManager = databaseManager;
@@ -45,6 +51,24 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
             _dbBackupRepository = dbBackupRepository;
             _dbRecoverRepository = dbRecoverRepository;
             _configRepository = configRepository;
+            _scheduledTaskRepository = scheduledTaskRepository;
+        }
+        private async Task AddPingTask()
+        {
+            if (!await _scheduledTaskRepository.ExistsPingTask())
+            {
+                var task = new ScheduledTask
+                {
+                    TaskType = TaskType.Ping,
+                    TaskInterval = TaskInterval.EveryMinute,
+                    Every = 1,
+                    StartDate = DateTime.Now,
+                    Timeout = 60 * 24,
+                    PingHost = PageUtils.GetHost(Request)
+                };
+
+                await _scheduledTaskRepository.InsertAsync(task);
+            }
         }
 
         public class TableInfo

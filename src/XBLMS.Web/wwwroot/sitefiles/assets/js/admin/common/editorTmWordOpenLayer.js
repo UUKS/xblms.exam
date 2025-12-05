@@ -92,12 +92,7 @@ var methods = {
       height: "66%"
     });
   },
-  btnViewDemo: function () {
-    top.utils.openLayerPhoto({
-      title: '题目格式',
-      src: utils.getAssetsUrl("/images/tmFormat.png")
-    })
-  },
+ 
   setWordCallBack: function (wordContent) {
     utils.getEditor(this.attributeName).execCommand("clearDoc");
     utils.getEditor(this.attributeName).execCommand("insertHTML", wordContent);

@@ -16,7 +16,7 @@ namespace XBLMS.Utils
         {
             public const string DirectoryName = "sitefiles";
             public const string Library = "library";
-            public const string BackupFiles = "backupfiles";
+            public const string DbBackupFiles = "dbbackup";
             public const string TemporaryFiles = "temporaryfiles";
             public const string DownloadFiles = "download";
             public const string ImportFiles = "import";

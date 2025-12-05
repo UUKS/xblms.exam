@@ -82,7 +82,7 @@ namespace XBLMS.Web.Controllers.Admin.Common
             var regFront = @"<xblm>(.*?)</xblm>";
             tmHtml = Regex.Replace(tmHtml, regFront, string.Empty, RegexOptions.IgnoreCase);
             tmHtml = HtmlUtils.ClearFormat(tmHtml);//清理样式和p之外的标签
-            tmHtml = StringUtils.StripBlank(tmHtml);//清理多余的空格
+            //tmHtml = StringUtils.StripBlank(tmHtml);//清理多余的空格
 
             var resultTmHtml = string.Empty;
 
@@ -115,7 +115,7 @@ namespace XBLMS.Web.Controllers.Admin.Common
                                 if (tmTitle_option_remark_list.Count >= 2)
                                 {
                                     var tmTitle = tmTitle_option_remark_list[0];
-                                    tmTitle = StringUtils.StripTags(tmTitle);
+                                    //tmTitle = StringUtils.StripTags(tmTitle);
 
                                     var tmRemark = tmTitle_option_remark_list[tmTitle_option_remark_list.Count - 1];
                                     tmRemark = StringUtils.StripTags(tmRemark);

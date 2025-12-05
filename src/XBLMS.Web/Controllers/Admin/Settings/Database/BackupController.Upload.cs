@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using XBLMS.Configuration;
 using XBLMS.Dto;
 using XBLMS.Models;
 using XBLMS.Utils;
@@ -29,7 +30,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
             var maxChunk = request.MaxChunk;
             var guid = request.Guid;
             //临时保存分块的目录
-            var dir = PathUtils.Combine(_settingsManager.WebRootPath, "sitefiles", "dbbackup", "upload", guid);
+            var dir = PathUtils.Combine(_settingsManager.WebRootPath, DirectoryUtils.SiteFiles.DirectoryName, DirectoryUtils.SiteFiles.DbBackupFiles, DirectoryUtils.SiteFiles.Upload, guid);
             DirectoryUtils.CreateDirectoryIfNotExists(dir);
             //分块文件名为索引名，更严谨一些可以加上是否存在的判断，防止多线程时并发冲突
             var filePath = PathUtils.Combine(dir, index.ToString());
@@ -49,7 +50,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                 var fileFormat = PathUtils.GetExtension(fileName);
                 var yearMonth = DateTime.Now.ToString("yyyyMMdd");
                 //最终保存路径
-                var finalDir = PathUtils.Combine(_settingsManager.WebRootPath, "sitefiles", "dbbackup", "upload", yearMonth);
+                var finalDir = PathUtils.Combine(_settingsManager.WebRootPath, DirectoryUtils.SiteFiles.DirectoryName, DirectoryUtils.SiteFiles.DbBackupFiles, DirectoryUtils.SiteFiles.Upload, yearMonth);
                 DirectoryUtils.CreateDirectoryIfNotExists(finalDir);
 
                 //随机生成一个文件名
@@ -58,8 +59,9 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                 var finalPath = PathUtils.Combine(finalDir, saveName);
                 await MergeFileAsync(dir, finalPath, guid);
 
-                var backuppathdate = $"{DateTime.Now:yyyy-MM-dd-hh-mm-ss}";
-                var extractPath = PathUtils.Combine(_settingsManager.WebRootPath, "sitefiles", "dbbackup", backuppathdate);
+                var backupDatePath = $"{DateTime.Now:yyyy-MM-dd-hh-mm-ss}-{StringUtils.GetShortGuid()}";
+                var backupPath = PathUtils.Combine(DirectoryUtils.SiteFiles.DirectoryName, DirectoryUtils.SiteFiles.DbBackupFiles, backupDatePath);
+                var extractPath = PathUtils.Combine(_settingsManager.WebRootPath, backupPath);
                 _pathManager.ExtractZip(finalPath, extractPath);
 
                 long totalSize = DirectoryUtils.GetTotalSize(extractPath);
@@ -76,7 +78,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                     Status = 1,
                     BeginTime = DateTime.Now,
                     EndTime = DateTime.Now,
-                    FilePath = $"sitefiles/dbbackup/{backuppathdate}",
+                    FilePath = backupPath,
                     DataSize = FileUtils.GetFileSizeByFileLength(totalSize),
                     ErrorLog = "导入备份"
                 });

@@ -118,22 +118,5 @@ namespace XBLMS.Web.Controllers.Admin
 
             return (redirect, redirectUrl);
         }
-        private async Task AddPingTask()
-        {
-            if (!await _scheduledTaskRepository.ExistsPingTask())
-            {
-                var task = new ScheduledTask
-                {
-                    TaskType = TaskType.Ping,
-                    TaskInterval = TaskInterval.EveryMinute,
-                    Every = 1,
-                    StartDate = DateTime.Now,
-                    Timeout = 60 * 24,
-                    PingHost = PageUtils.GetHost(Request)
-                };
-
-                await _scheduledTaskRepository.InsertAsync(task);
-            }
-        }
     }
 }
