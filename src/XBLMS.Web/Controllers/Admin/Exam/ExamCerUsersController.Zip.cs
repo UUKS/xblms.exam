@@ -12,7 +12,7 @@ namespace XBLMS.Web.Controllers.Admin.Exam
         public async Task<ActionResult<StringResult>> Zip([FromQuery] GetUserRequest request)
         {
 
-            var (total, list) = await _examCerUserRepository.GetListAsync(request.Id, request.Keywords, request.DateFrom, request.DateTo, request.PageIndex, request.PageSize);
+            var (total, list) = await _examCerUserRepository.GetListAsync(request.Id, request.Keywords, request.DateFrom, request.DateTo, 1, int.MaxValue);
 
             var cer = await _examCerRepository.GetAsync(request.Id);
 
