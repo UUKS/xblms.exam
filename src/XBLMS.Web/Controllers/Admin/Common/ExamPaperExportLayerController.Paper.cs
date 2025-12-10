@@ -148,7 +148,7 @@ namespace XBLMS.Web.Controllers.Admin.Common
 
                 await GetTm(wordContent, configs, randomId, request.WithAnswer);
 
-                StringUtils.ReplaceHrefOrSrc(wordContent, $"/{DirectoryUtils.SiteFiles.DirectoryName}/{DirectoryUtils.SiteFiles.Upload}", $"../../{DirectoryUtils.SiteFiles.Upload}");
+                StringUtils.ReplaceHrefOrSrc(wordContent, $"/{DirectoryUtils.SiteFiles.DirectoryName}/{DirectoryUtils.SiteFiles.Upload}", $"../{DirectoryUtils.SiteFiles.Upload}");
 
                 await FileUtils.WriteTextAsync(fileHtmlPath, wordContent.ToString());
                 var result = WordManager.HtmlToWord(fileHtmlPath, fileWordPath);
