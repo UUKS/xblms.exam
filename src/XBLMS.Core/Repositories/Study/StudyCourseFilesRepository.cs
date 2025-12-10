@@ -46,10 +46,15 @@ namespace XBLMS.Core.Repositories
             var file = await GetAsync(id);
             if (file != null && !string.IsNullOrEmpty(file.Url))
             {
+                var sourceFilePath = PathUtils.Combine(_settingsManager.WebRootPath, DirectoryUtils.GetDirectoryPath(file.Url), $"{file.FileName}.{file.FileType}");
+                FileUtils.DeleteFileIfExists(sourceFilePath);
+
+                var coverFilePath = PathUtils.Combine(_settingsManager.WebRootPath, file.CoverUrl);
+                FileUtils.DeleteFileIfExists(coverFilePath);
+
                 var filePath = PathUtils.Combine(_settingsManager.WebRootPath, file.Url);
                 FileUtils.DeleteFileIfExists(filePath);
             }
-
             return await _repository.DeleteAsync(id);
         }
         public static void GetSeletQuery(Query query, bool isVideo)

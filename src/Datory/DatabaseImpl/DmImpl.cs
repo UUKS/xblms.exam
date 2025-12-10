@@ -154,7 +154,7 @@ namespace Datory.DatabaseImpl
             }
             if (type == DataType.DateTime)
             {
-                return $"{columnName} timestamptz";
+                return $"{columnName} timestamp";
             }
             if (type == DataType.Decimal)
             {
@@ -218,7 +218,7 @@ namespace Datory.DatabaseImpl
                 case "bit":
                     dataType = DataType.Boolean;
                     break;
-                case "timestamptz":
+                case "timestamp":
                     dataType = DataType.DateTime;
                     break;
                 case "dec":
