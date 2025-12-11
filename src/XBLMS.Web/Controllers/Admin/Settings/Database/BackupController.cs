@@ -1,12 +1,10 @@
-﻿using Datory;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XBLMS.Configuration;
-using XBLMS.Core.Repositories;
 using XBLMS.Enums;
 using XBLMS.Models;
 using XBLMS.Repositories;
@@ -71,12 +69,6 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
             }
         }
 
-        public class TableInfo
-        {
-            public List<TableColumn> Columns { get; set; }
-            public int TotalCount { get; set; }
-            public List<string> RowFiles { get; set; }
-        }
         public class GetRequest
         {
             public int PageIndex { get; set; }

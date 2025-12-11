@@ -96,11 +96,10 @@ namespace XBLMS.Core.Services
                     continue;
                 }
 
-                await repository.Database.DropTableAsync(repository.TableName);
+                await _settingsManager.Database.DropTableAsync(repository.TableName);
             }
 
             await SyncDatabaseAsync();
-
         }
 
         private async Task UpdateConfigVersionAsync()

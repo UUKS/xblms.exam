@@ -48,7 +48,8 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
                 Status = 0
             };
             await _dbBackupRepository.InsertAsync(jobinfo);
-            await AddPingTask();
+            await _databaseManager.ExecuteBackupAsync();
+
 
             return new BoolResult
             {
@@ -83,6 +84,22 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
             config.DbBackupAuto = request.DbBackupAuto;
 
             await _configRepository.UpdateAsync(config);
+            if (config.DbBackupAuto)
+            {
+                await AddPingTask();
+            }
+            else
+            {
+                var all = await _scheduledTaskRepository.GetAllAsync();
+                if(all!=null && all.Count > 0)
+                {
+                    foreach (var item in all)
+                    {
+                        await _scheduledTaskRepository.DeleteAsync(item.Id);
+                    }
+                }
+            }
+
             return new BoolResult
             {
                 Value = true
