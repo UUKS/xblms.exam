@@ -11,7 +11,7 @@
             <el-form v-on:submit.native.prevent ref="form" :model="form" :size="euiSize">
                 <el-form-item label="securityKey" prop="securityKey" :rules="[{ required: true, message: '请输入securityKey' }]">
                     <el-input v-model="form.securityKey"></el-input>
-                    <small>请进入系统根目录，打开 xblms.json 获取 SecurityKey的值</small>
+                    <small class="tips">请进入系统根目录，打开 xblms.json 获取 SecurityKey的值</small>
                 </el-form-item>
             </el-form>
         </div>

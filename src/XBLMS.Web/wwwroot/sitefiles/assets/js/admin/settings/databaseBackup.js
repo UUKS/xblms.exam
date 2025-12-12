@@ -87,20 +87,18 @@ var methods = {
   },
   btnAsyncClick: function () {
     var $this = this;
-    utils.loading(this, true, "正在备份，请稍等...");
-    $api.get($url + '/excution').then(function (response) {
-      var res = response.data;
+    top.utils.loading($this, true, "正在备份，请稍等...");
+    $api.get($url + '/excution').then(function () {
     }).catch(function (error) {
       utils.error(error);
     }).then(function () {
-      utils.loading($this, false);
+      top.utils.loading($this, false);
       $this.apiGet();
     });
   },
   handleCommand: function (type, row) {
     var $this = this;
     if (type === 'recover') {
-
       top.utils.openLayer({
         title: false,
         closebtn: 0,

@@ -11,7 +11,9 @@
             <el-form v-on:submit.native.prevent ref="form" :model="form" :size="euiSize">
                 <el-form-item label="securityKey" prop="securityKey" :rules="[{ required: true, message: '请输入securityKey' }]">
                     <el-input v-model="form.securityKey"></el-input>
-                    <small>请进入系统根目录，打开 xblms.json 获取 SecurityKey的值</small>
+                    <small class="tips">进入系统根目录，打开 xblms.json 获取 SecurityKey的值</small>
+                    <div></div>
+                    <small>恢复之前请确保已经做了备份，同时确保新旧系统的版本一致</small>
                 </el-form-item>
             </el-form>
         </div>
@@ -23,7 +25,6 @@
         <el-button icon="el-icon-close" :size="euiSize" v-on:click="utils.closeLayerSelf">取 消</el-button>
     </el-col>
 </el-row>
-
 
 @section Scripts{
     <script src="/sitefiles/assets/js/admin/settings/databaseBackupRecover.js" type="text/javascript"></script>

@@ -149,14 +149,13 @@ namespace XBLMS.Core.Services
             {
                 var tableInfo = TranslateUtils.JsonDeserialize<DbTableInfo>(tableInfoContent);
 
-                if (await _settingsManager.Database.IsTableExistsAsync(tableName))
-                {
-                    await _settingsManager.Database.DropTableAsync(tableName);
-                }
-
                 if (!await _settingsManager.Database.IsTableExistsAsync(tableName))
                 {
                     await CreateTableAsync(tableName, repository.TableColumns);
+                }
+                else
+                {
+                    await _settingsManager.Database.TruncateTableAsync(tableName);
                 }
 
                 if (tableInfo.RowFiles.Count > 0)

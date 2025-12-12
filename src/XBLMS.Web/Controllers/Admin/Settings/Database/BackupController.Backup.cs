@@ -49,7 +49,7 @@ namespace XBLMS.Web.Controllers.Admin.Settings.Database
             };
             await _dbBackupRepository.InsertAsync(jobinfo);
             await _databaseManager.ExecuteBackupAsync();
-
+            await Task.Delay(2000);
 
             return new BoolResult
             {

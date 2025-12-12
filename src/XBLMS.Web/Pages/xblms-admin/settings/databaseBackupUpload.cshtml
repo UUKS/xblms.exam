@@ -11,7 +11,7 @@
             <el-form v-on:submit.native.prevent ref="form" :model="form" :size="euiSize">
                 <el-form-item label="securityKey" prop="securityKey" :rules="[{ required: true, message: '请输入securityKey' }]">
                     <el-input v-model="form.securityKey"></el-input>
-                    <small>请进入系统根目录，打开 xblms.json 获取 SecurityKey的值</small>
+                    <small class="tips">请进入系统根目录，打开 xblms.json 获取 SecurityKey的值</small>
                 </el-form-item>
                 <el-form-item label="备份文件" prop="fileList" :rules="[{ required: true, message: '请选择备份文件' }]">
                     <el-upload class="upload-demo"
@@ -41,7 +41,6 @@
         <el-button icon="el-icon-close" :size="euiSize" v-on:click="utils.closeLayerSelf">取 消</el-button>
     </el-col>
 </el-row>
-
 
 @section Scripts{
     <script src="/sitefiles/assets/js/admin/settings/databaseBackupUpload.js" type="text/javascript"></script>

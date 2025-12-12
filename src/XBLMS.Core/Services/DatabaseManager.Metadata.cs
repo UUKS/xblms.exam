@@ -132,22 +132,22 @@ namespace XBLMS.Core.Services
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamCerUser.PlanId)}", $"{nameof(ExamCerUser.PlanId)}");
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamCerUser.CourseId)}", $"{nameof(ExamCerUser.CourseId)}");
                 }
-                else if (tableName == ExamPaperAnswerRepository.TableName)
+                else if (tableName == ExamPaperAnswerRepository.TableName || StringUtils.Contains(tableName,$"{ExamPaperAnswerRepository.TableName}_"))
                 {
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamPaperAnswer.UserId)}", $"{nameof(ExamPaperAnswer.UserId)}");
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamPaperAnswer.ExamPaperId)}", $"{nameof(ExamPaperAnswer.ExamPaperId)}");
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamPaperAnswer.ExamStartId)}", $"{nameof(ExamPaperAnswer.ExamStartId)}");
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamPaperAnswer.RandomTmId)}", $"{nameof(ExamPaperAnswer.RandomTmId)}");
                 }
-                else if (tableName == ExamPaperRandomRepository.TableName)
+                else if (tableName == ExamPaperRandomRepository.TableName || StringUtils.Contains(tableName, $"{ExamPaperRandomRepository.TableName}_"))
                 {
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamPaperRandom.ExamPaperId)}", $"{nameof(ExamPaperRandom.ExamPaperId)}");
                 }
-                else if (tableName == ExamPaperRandomConfigRepository.TableName)
+                else if (tableName == ExamPaperRandomConfigRepository.TableName || StringUtils.Contains(tableName, $"{ExamPaperRandomConfigRepository.TableName}_"))
                 {
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamPaperRandomConfig.ExamPaperId)}", $"{nameof(ExamPaperRandomConfig.ExamPaperId)}");
                 }
-                else if (tableName == ExamPaperRandomTmRepository.TableName)
+                else if (tableName == ExamPaperRandomTmRepository.TableName || StringUtils.Contains(tableName, $"{ExamPaperRandomTmRepository.TableName}_"))
                 {
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamPaperRandomTm.ExamPaperId)}", $"{nameof(ExamPaperRandomTm.ExamPaperId)}");
                     await _settingsManager.Database.CreateIndexAsync(tableName, $"IX_{tableName}_{nameof(ExamPaperRandomTm.TxId)}", $"{nameof(ExamPaperRandomTm.TxId)}");
