@@ -13,15 +13,10 @@
 
 <br />
 
-### 管理端
-
 <img src="https://gitee.com/xblms/xblmes/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/admin/首页.png">
 
 <br />
 <br />
-
-### 用户中心
-
 <img src="https://gitee.com/xblms/xblmes/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/home/首页.png">
 
 <br />
