@@ -13,11 +13,11 @@
 
 <br />
 
-<img src="https://gitee.com/xblms/xblms.exam/tree/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/admin/index.png">
+<img src="https://gitee.com/xblms/xblms.exam/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/admin/index.png">
 
 <br />
 <br />
-<img src="https://gitee.com/xblms/xblms.exam/tree/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/home/index.png">
+<img src="https://gitee.com/xblms/xblms.exam/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/home/index.png">
 
 <br />
 
