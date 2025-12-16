@@ -10,8 +10,7 @@ var data = utils.init({
 var methods = {
   apiRecover: function () {
     var $this = this;
-
-    top.utils.loading($this, true, '正在恢复备份，请稍等...');
+    utils.loading($this, true, '正在恢复备份，请稍等...');
     $api.post($url + '/recover', { id: this.id, securityKey: this.form.securityKey }).then(function (response) {
       var res = response.data;
       if (res.value) {
@@ -28,7 +27,7 @@ var methods = {
     }).catch(function (error) {
       utils.error(error, { layer: true });
     }).then(function () {
-      top.utils.loading($this, false);
+      utils.loading($this, false);
     });
   },
   btnRecoverClick: function () {

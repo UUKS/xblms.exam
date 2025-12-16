@@ -539,7 +539,12 @@ namespace XBLMS.Core.Services
         public async Task<List<IDictionary<string, object>>> GetObjectsAsync(string tableName)
         {
             List<IDictionary<string, object>> objects;
-            var sqlString = $"select * from {tableName}";
+            var sqlString = $"SELECT * FROM {tableName}";
+
+            if (_settingsManager.Database.DatabaseType == DatabaseType.PostgreSql)
+            {
+                sqlString = $@"SELECT * FROM ""{tableName}""";
+            }
 
             await using (var connection = _settingsManager.Database.GetConnection())
             {
@@ -616,6 +621,10 @@ namespace XBLMS.Core.Services
                     limit = int.MaxValue;
                 }
                 retVal = $@"SELECT {columnNames} FROM {tableName} {whereSqlString} {orderSqlString} LIMIT {limit} OFFSET {offset}";
+            }
+            else if (_settingsManager.Database.DatabaseType == DatabaseType.PostgreSql)
+            {
+                return $@"SELECT {columnNames} FROM ""{tableName}"" {whereSqlString} ORDER BY ""Id"" DESC";
             }
             else if (_settingsManager.Database.DatabaseType == DatabaseType.SqlServer && IsSqlServer2012)
             {

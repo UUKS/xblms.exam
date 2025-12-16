@@ -229,6 +229,18 @@ SET IDENTITY_INSERT {tableName} OFF
                 using var connection = database.GetConnection();
                 await connection.ExecuteAsync(sqlString, parameterList);
             }
+            else if (database.DatabaseType == DatabaseType.PostgreSql)
+            {
+                var sqlStringBuilder = new StringBuilder($@"INSERT INTO ""{tableName}"" ({columnNames}) VALUES ");
+                foreach (var values in valuesList)
+                {
+                    sqlStringBuilder.Append($"({values}), ");
+                }
+                sqlStringBuilder.Length -= 2;
+
+                using var connection = database.GetConnection();
+                await connection.ExecuteAsync(sqlStringBuilder.ToString(), parameterList);
+            }
             else
             {
                 var sqlStringBuilder = new StringBuilder($@"INSERT INTO {tableName} ({columnNames}) VALUES ");

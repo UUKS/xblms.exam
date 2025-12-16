@@ -15,15 +15,14 @@ namespace XBLMS.Core.Services
 
             var backupPath = PathUtils.Combine(DirectoryUtils.SiteFiles.DirectoryName, DirectoryUtils.SiteFiles.DbBackupFiles, $"{DateTime.Now:yyyy-MM-dd-hh-mm-ss}-{StringUtils.GetShortGuid()}");
             var directory = PathUtils.Combine(_settingsManager.WebRootPath, backupPath);
-
-            var allTableNames = await _settingsManager.Database.GetTableNamesAsync();
-
             var tableNames = new List<string>();
 
-            foreach (var tableName in allTableNames)
+            var repositories = GetAllRepositories();
+            foreach (var repository in repositories)
             {
-                tableNames.Add(tableName);
+                tableNames.Add(repository.TableName);
             }
+
             var tablesFilePath = PathUtils.Combine(directory, "_tables.json");
             await FileUtils.WriteTextAsync(tablesFilePath, TranslateUtils.JsonSerialize(tableNames));
 
@@ -38,7 +37,7 @@ namespace XBLMS.Core.Services
                     await BackupTable(tableName, directory);
                     successTables.Add(tableName);
 
-                    if (ExamPaperRepository.TableName.Equals(tableName))
+                    if (StringUtils.EqualsIgnoreCase(ExamPaperRepository.TableName, tableName))
                     {
                         var tableIdList = await ExamPaperRepository.Select_GetSeparateStorageIdList();
                         if (tableIdList != null && tableIdList.Count > 0)

@@ -786,7 +786,16 @@ var utils = {
       });
     }
   },
-
+  loadingTop: function (isLoading, text) {
+    let app = top.$vue;
+    if (isLoading) {
+      if (app.pageLoad) {
+        app.loading = app.$loading({ text: text || '页面加载中...' });
+      }
+    } else {
+      app.loading ? app.loading.close() : (app.pageLoad = true);
+    }
+  },
   loading: function (app, isLoading, text) {
     if (isLoading) {
       if (app.pageLoad) {

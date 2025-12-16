@@ -87,12 +87,13 @@ var methods = {
   },
   btnAsyncClick: function () {
     var $this = this;
-    top.utils.loading($this, true, "正在备份，请稍等...");
+    utils.loadingTop(true, '正在备份，请稍等...');
     $api.get($url + '/excution').then(function () {
+      utils.success("操作成功")
     }).catch(function (error) {
       utils.error(error);
     }).then(function () {
-      top.utils.loading($this, false);
+      utils.loadingTop(false);
       $this.apiGet();
     });
   },
