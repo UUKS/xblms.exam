@@ -9,63 +9,6 @@
 <br />
 <br />
 
-## 展示
-
-<br />
-
-### 后台管理
-
-<img src="https://gitee.com/xblms/xblmes/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/admin/首页.png">
-
-<br />
-<br />
-
-### 用户中心
-
-<img src="https://gitee.com/xblms/xblmes/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/home/首页.png">
-
-<br />
-
-## 演示环境
-
-管理端演示环境
-
-* 账号：admin/123123
-
-* [点击前往管理端演示](http://182.92.223.118:5000/xblms-admin)
-
-用户端演示环境
-
-* 账号：test/123123
-
-* [点击前往用户端演示](http://182.92.223.118:5000/home)
-
-移动端演示环境
-
-* 扫码前往移动端演示
-
-<img width="200" src="https://gitee.com/xblms/xblmes/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/app/二维码.png"/>
-
-<br />
-
-## 介绍
-
-基于 .NET Core 8 + Vue。
-
-支持跨平台部署。
-
-支持人大金仓、达梦、OceanBase、MariaDB、MySql、SqlServer、PostgreSql、SQLite 等多种类型数据库。
-
-支持基于考试和培训的基本功能，可以在系统配置中切换系统类型。
-
-
-### 版本
-
-* master 为开发版，这里会经常提交优化和更新，为下一个版本做准备。
-
-* [发行版提供较稳定的生成环境部署包和源代码，前往下载](https://gitee.com/xblms/xblmes/releases)
-
-
 ## 支持环境
 ### 支持的操作系统
 #### Windows
