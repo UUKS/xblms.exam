@@ -9,6 +9,44 @@
 <br />
 <br />
 
+## 展示
+
+<br />
+
+### 管理端
+
+<img src="https://gitee.com/xblms/xblmes/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/admin/首页.png">
+
+<br />
+<br />
+
+### 用户中心
+
+<img src="https://gitee.com/xblms/xblmes/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/home/首页.png">
+
+<br />
+
+## 演示
+
+管理端演示
+
+* 账号：admin/123123
+
+* [点击前往管理端演示](http://182.92.223.118:5000/xblms-admin)
+
+用户端演示
+
+* 账号：test/123123
+
+* [点击前往用户端演示](http://182.92.223.118:5000/home)
+
+移动端演示
+
+<img width="200" src="https://gitee.com/xblms/xblmes/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/app/二维码.png"/>
+
+<br />
+
+
 ## 支持环境
 ### 支持的操作系统
 #### Windows
