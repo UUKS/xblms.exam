@@ -9,18 +9,6 @@
 <br />
 <br />
 
-## 展示
-
-<br />
-
-<img src="https://gitee.com/xblms/xblms.exam/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/admin/index.png">
-
-<br />
-<br />
-<img src="https://gitee.com/xblms/xblms.exam/raw/master/src/XBLMS.Web/wwwroot/sitefiles/assets/images/demo/home/index.png">
-
-<br />
-
 
 ## 支持环境
 ### 支持的操作系统
