@@ -36,8 +36,6 @@ namespace Datory
 
         Task DropTableAsync(string tableName);
 
-        Task TruncateTableAsync(string tableName);
-
         Task<List<string>> GetDatabaseNamesAsync();
 
         Task<List<string>> GetTableNamesAsync();

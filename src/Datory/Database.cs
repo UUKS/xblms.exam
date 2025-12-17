@@ -437,13 +437,6 @@ namespace Datory
             await connection.ExecuteAsync($"DROP TABLE {tableName}");
         }
 
-        public async Task TruncateTableAsync(string tableName)
-        {
-            using var connection = GetConnection();
-            tableName = GetQuotedIdentifier(Utilities.FilterSql(tableName));
-            await connection.ExecuteAsync($"TRUNCATE TABLE {tableName}");
-        }
-
         public async Task<List<string>> GetDatabaseNamesAsync()
         {
             List<string> tableNames = null;

@@ -240,6 +240,13 @@ SET IDENTITY_INSERT {tableName} OFF
 
                 using var connection = database.GetConnection();
                 await connection.ExecuteAsync(sqlStringBuilder.ToString(), parameterList);
+
+                try
+                {
+                    var seqSql = $"SELECT setval(pg_get_serial_sequence('\"{tableName}\"','Id'),(SELECT MAX(\"Id\") FROM \"{tableName}\"))";
+                    await connection.ExecuteAsync(seqSql);
+                }
+                catch { }
             }
             else
             {

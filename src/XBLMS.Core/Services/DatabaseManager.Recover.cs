@@ -149,13 +149,11 @@ namespace XBLMS.Core.Services
             {
                 var tableInfo = TranslateUtils.JsonDeserialize<DbTableInfo>(tableInfoContent);
 
+                await _settingsManager.Database.DropTableAsync(tableName);
+
                 if (!await _settingsManager.Database.IsTableExistsAsync(tableName))
                 {
                     await CreateTableAsync(tableName, repository.TableColumns);
-                }
-                else
-                {
-                    await _settingsManager.Database.TruncateTableAsync(tableName);
                 }
 
                 if (tableInfo.RowFiles.Count > 0)
@@ -170,13 +168,16 @@ namespace XBLMS.Core.Services
                         if (!string.IsNullOrWhiteSpace(objectContents))
                         {
                             var objects = TranslateUtils.JsonDeserialize<List<JObject>>(objectContents);
-                            try
+                            if(objects!=null && objects.Count > 0)
                             {
-                                await repository.BulkInsertAsync(objects);
-                            }
-                            catch
-                            {
-                                errorTableNames.Add(tableName);
+                                try
+                                {
+                                    await repository.BulkInsertAsync(objects);
+                                }
+                                catch
+                                {
+                                    errorTableNames.Add(tableName);
+                                }
                             }
                         }
                     }
