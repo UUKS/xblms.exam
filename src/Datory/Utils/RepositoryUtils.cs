@@ -71,15 +71,17 @@ namespace Datory.Utils
                 }
                 bindings.AddRange(compiled.Bindings);
 
-                var result = new SqlResult
+                var result = new SqlResult(tableName, "?")
                 {
                     Query = query
                 };
+
                 var where = compiler.CompileWheres(result);
                 sql = $"UPDATE {database.GetQuotedIdentifier(tableName)} SET { string.Join(", ", setList)} {where}";
 
                 //sql = Helper.ExpandParameters(sql, "?", bindings.ToArray());
-                sql = Helper.ReplaceAll(sql, "?", i => "@p" + i);
+                sql = Helper.ReplaceAll(sql, "?", "", i => "@p" + (i + 1));
+                // 或 @p0 從 0 開始就寫 i => "@p" + i
 
                 namedBindings = Helper.Flatten(bindings).Select((v, i) => new { i, v })
                     .ToDictionary(x => "@p" + x.i, x => x.v);
